@@ -1,29 +1,37 @@
-import React from 'react'
-// import {  useState } from 'react';
-import AuthLayout from './layout/auth';
-import { BrowserRouter, Routes, Route } from 'react-router';
-
-import LoginForm from './routes/auth/login';
-// import RegistrationForm from './routes/auth/registration';
-
-
-
+import './App.css'
+import { BrowserRouter, Route, Routes } from 'react-router';
+import DashboardPage from './routes/dashboard';
+import LandingLayout from './layout/landing.main';
+import Latest from './routes/dashboard/latest';
+import UpComingMovies from './routes/dashboard/upcoming';
+import TrendingMovies from './routes/dashboard/trending';
 
 
 
 function App() {
 
-    return (
-       <BrowserRouter>
-      {/* Your app content */}
+  return (
+    <BrowserRouter>
       <Routes>
-        <Route element={<AuthLayout />}>
-          <Route path="/login" element={<LoginForm />} />
-          {/* <Route path="/register" element={<RegistrationForm />} /> */}
+        <Route element={<LandingLayout />}>
+          <Route index element={<DashboardPage />} />
+          <Route path="trending" element={<TrendingMovies />} />
+          <Route path="latest" element={<Latest />} />
+          <Route path="UpComing" element={<UpComingMovies />} />
         </Route>
+
+        {/* <Route element={<AuthLayout />}>
+          <Route path="/login" element={<LoginForm />} />
+          <Route path="/register" element={<RegistrationForm />} />
+        </Route> */}
+        <Route path="/dashboard" element={<DashboardPage />} />
+        {/* <Route index element={<LatestMovies />} />
+        <Route path="/dashboard/latest" element={<LatestMovies />} /> */}
+
+
       </Routes>
-      </BrowserRouter>
-    );
+    </BrowserRouter>
+  );
 }
 
 
@@ -39,8 +47,8 @@ function App() {
 
 
 export default App
-  
-  {/* // const [searchQuery, setSearchQuery] = useState<string>()
+
+{/* // const [searchQuery, setSearchQuery] = useState<string>()
 
     // <header>
     //  <div className="header-search" >
@@ -57,5 +65,5 @@ export default App
     //       </button>
     //     </div>
     //   </header> */}
-      
+
 

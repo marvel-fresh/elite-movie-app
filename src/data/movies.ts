@@ -1,23 +1,32 @@
-import type { Movie } from "@/types/latest";
+import { getReq } from "@/lib/request";
+import type { MovieDetailsProps, MoviesListProps } from "@/types/movies.type";
+export const getTopRated = () => {
+    const data = getReq('/movie/top_rated')
+    return data as unknown as MoviesListProps[];
+};
+export const getUpcoming = () => {
+    const data = getReq('/movie/upcoming')
+    return data as unknown as MoviesListProps[];
+};
 
 
-export const movies: Movie[] = [
-  {
-    title: "The Avengers",
-    banner: "avengers.jpg",
-    seasons: "Season 1-25",
-    description:
-      "A team of powerful heroes comes together to protect the world from dangerous enemies.",
-    year: 2026,
-    genre: "Action / Adventure",
-  },
-   {
-    title: "The Return of Captain",
-    banner:"captainAmerica.jpg",
-    seasons: "Season 1-25",
-    description:
-      "A legendary captain returns to face a new threat and protect his people.",
-    year: 2025,
-    genre: "Action / Drama",
-  }
-]
+interface NowPlayingResponse {
+    date:{minimum:string, maximun:string}
+    page:number
+    results:MoviesListProps[]
+    total_pages:number
+    total_results:number
+}
+
+
+export const getNowPlaying = async () => {
+    const data =await  getReq('/movie/now_playing') as unknown as  NowPlayingResponse
+    console.log(data)
+    return data.results;
+};
+
+
+export const getMovieDetails = () => {
+    const data = getReq('/movie/{movie_id}')
+    return data as unknown as MovieDetailsProps;
+};

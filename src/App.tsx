@@ -5,8 +5,8 @@ import LandingLayout from './layout/landing.main';
 import Latest from './routes/dashboard/latest';
 import UpComingMovies from './routes/dashboard/upcoming';
 import TrendingMovies from './routes/dashboard/trending';
-
-
+import TrendingPage from './routes/dashboard/trending';
+import TrendingDetails from './routes/dashboard/trending.$id';
 
 function App() {
 
@@ -16,6 +16,8 @@ function App() {
         <Route element={<LandingLayout />}>
           <Route index element={<DashboardPage />} />
           <Route path="trending" element={<TrendingMovies />} />
+          <Route path="/trending" element={<TrendingPage />} />
+<Route path="/trending/:id" element={<TrendingDetails />} />
           <Route path="latest" element={<Latest />} />
           <Route path="UpComing" element={<UpComingMovies />} />
         </Route>

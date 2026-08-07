@@ -1,19 +1,25 @@
 import Sections from "@/components/sections";
-import { movies } from "@/data/movies";
+import { getNowPlaying } from "@/data/movies";
 import type { Movie } from "@/types/latest";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router";
+import Footer from "@/layout/footer"
+import type { MoviesListProps } from "@/types/movies.type";
+import { getImageURL } from "@/lib/functions";
 const DashboardPage = () => {
 
-  const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
+  const [nowPlaying, setNowPlaying] = useState<MoviesListProps[]>([])
 
-  const showMovieDetails = (movie: Movie) => {
-    setSelectedMovie(movie);
-  };
+  useEffect(()=>{
+    const getData =async ()=>{
+      const nowPlaying = await getNowPlaying()
+      setNowPlaying(nowPlaying)
+    }
 
-  const closeMovieDetails = () => {
-    setSelectedMovie(null);
-  };
+    getData()
+
+
+  },[])
 
 
   return (
@@ -21,15 +27,16 @@ const DashboardPage = () => {
     <>
 
 
-      <section className="hero" style={{backgroundImage:`url(./movies/${movies[0].banner})`}}>
+      <section className="hero" style={{ backgroundImage: `url(${getImageURL(nowPlaying[1]?.backdrop_path, "xl")})` }}>
         <div className="hero-content">
-          <h1>{movies[0].title}</h1>
-          <p>{movies[0].description}</p>
+          <h1>{nowPlaying[1]?.title}</h1>
+          <p>{nowPlaying[1]?.overview}</p>
+          {/* <h1>{nowPlaying[0].actor}</h1>
+          <p>{nowPlaying[0].directors}</p> */}
 
           <button
             type="button"
             className="hero-btn"
-            onClick={() => showMovieDetails(movies[0])}
           >
             Details
           </button>
@@ -38,8 +45,28 @@ const DashboardPage = () => {
 
       </section>
 
-<Sections title="Trending" movies={movies} hasViewMore viewMoreLink="/trending"/>
+      {/* <Sections title="Trending" movies={movies} hasViewMore viewMoreLink="/trending" />
 
+      <Sections title="latest" movies={movies} hasViewMore viewMoreLink="/latest" />
+
+      <Sections title="Popular" movies={movies} hasViewMore />
+
+      <Sections title="Top Rated" movies={movies} hasViewMore />
+
+      <Sections title="upcoming movies" movies={movies} hasViewMore />
+
+      <Sections title="Now Playing" movies={movies} hasViewMore />
+
+      <Sections title="Drama" movies={movies} hasViewMore />
+
+      <Sections title="Actions" movies={movies} hasViewMore />
+
+      <Sections title="Fantasy" movies={movies} hasViewMore />
+
+      <Sections title="Horror" movies={movies} hasViewMore />
+
+      <Sections title="Romance" movies={movies} hasViewMore /> */}
+      <Footer/>
     </>
 
   );

@@ -32,7 +32,7 @@ const header = document.getElementsByClassName('dashboard-header');
 
         <header className="dashboard-header">
 
-            <h3 className="app-name"> 🎬Latest Movies</h3>
+            <h3 className="app-name"> 🎬Elite Movies</h3>
             <nav>
                 <ul className="nav-links">
                     <li>

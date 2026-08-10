@@ -182,7 +182,7 @@ color:white
 }
 
 .hero {
-  height: 500px;
+  height: 680px;
   max-width: 100%;
   background-size: cover;
   background-position: center;
@@ -214,6 +214,7 @@ color:white
 
 .hero-content h1 {
   font-size: 64px;
+  line-height: 1;
   font-weight: 800;
   margin: 32px 0;
 }
@@ -231,6 +232,7 @@ color:white
   color: white;
   font-size: 16px;
   cursor: pointer;
+  text-decoration: none;
 
 
 }
@@ -257,17 +259,25 @@ color:white
 .movie-card {
   background: #1a1a1a;
   border-radius: 12px;
-  overflow: hidden;
+  width: 100%; 
   color: white;
-  max-width: 240px;
+  min-width: 240px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  transition:all 0.3s ease-in-out
 }
 
 .movie-card img {
   width: 100%;
   height: 250px;
+  border-radius: 12px 12px 0 0;
   object-fit: cover;
 }
+
+.movie-card:hover {
+  transform: scale(1.05);
+}
+
+
 
 .movie-info {
   padding: 15px;
@@ -369,7 +379,9 @@ color:white
   font-size: 12px;
   cursor: pointer;
   text-decoration: none;
-  color:#b20710
+  color:#b20710;
+  display:flex;
+  align-items:center;
 }
 
 
@@ -391,22 +403,8 @@ color:white
   padding-top: 55px;
 }
 
-.movie-card {
-  background: #111;
-  border-radius: 10px;
-  overflow: hidden;
-  transition: 0.3s;
-}
 
-.movie-card:hover {
-  transform: scale(1.05);
-}
 
-.movie-card img {
-  width: 100%;
-  height: 320px;
-  object-fit: cover;
-}
 
 .movie-card h3 {
   margin: 10px;
@@ -561,18 +559,21 @@ color:white
   gap: 25px;
 }
 
-.movie-card {
-  background: #1b1b1b;
-  border-radius: 10px;
-  overflow: hidden;
-}
 
-.movie-card img {
-  width: 100%;
-  height: 320px;
-  object-fit: cover;
-}
 
 .movie-info {
   padding: 20px;
+}
+
+
+.backdrop{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

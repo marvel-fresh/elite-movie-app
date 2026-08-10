@@ -1,24 +1,25 @@
-import Sections from "@/components/sections";
-import { getNowPlaying } from "@/data/movies";
-import type { Movie } from "@/types/latest";
+import { getNowPlaying, getPopular, getUpcoming } from "@/data/movies";
 import { useEffect, useState } from "react";
-import { Link } from "react-router";
 import Footer from "@/layout/footer"
 import type { MoviesListProps } from "@/types/movies.type";
 import { getImageURL } from "@/lib/functions";
+import NowPlayingHero from "@/components/swiper";
+import Sections from "@/components/sections";
 const DashboardPage = () => {
 
   const [nowPlaying, setNowPlaying] = useState<MoviesListProps[]>([])
+  const [popular, setPopular] = useState<MoviesListProps[]>([])
+const [upcoming, setUpcoming] = useState<MoviesListProps[]>([])
 
   useEffect(()=>{
     const getData =async ()=>{
-      const nowPlaying = await getNowPlaying()
+      const [nowPlaying, popular, upcoming] = await Promise.all([getNowPlaying(), getPopular(), getUpcoming()])
       setNowPlaying(nowPlaying)
+      setPopular(popular)
+      setUpcoming(upcoming)
     }
 
     getData()
-
-
   },[])
 
 
@@ -27,27 +28,12 @@ const DashboardPage = () => {
     <>
 
 
-      <section className="hero" style={{ backgroundImage: `url(${getImageURL(nowPlaying[1]?.backdrop_path, "xl")})` }}>
-        <div className="hero-content">
-          <h1>{nowPlaying[1]?.title}</h1>
-          <p>{nowPlaying[1]?.overview}</p>
-          {/* <h1>{nowPlaying[0].actor}</h1>
-          <p>{nowPlaying[0].directors}</p> */}
+<NowPlayingHero nowPlaying={nowPlaying}/>
 
-          <button
-            type="button"
-            className="hero-btn"
-          >
-            Details
-          </button>
-
-        </div>
-
-      </section>
-
-      {/* <Sections title="Trending" movies={movies} hasViewMore viewMoreLink="/trending" />
-
-      <Sections title="latest" movies={movies} hasViewMore viewMoreLink="/latest" />
+      <Sections title="Trending" movies={popular} hasViewMore viewMoreLink="/trending" />
+{/* <Sections  title="Upcoming Movies"  movies={upcoming} hasViewMore viewMoreLink="/upcoming" 
+/> */}
+      {/* <Sections title="latest" movies={movies} hasViewMore viewMoreLink="/latest" />
 
       <Sections title="Popular" movies={movies} hasViewMore />
 

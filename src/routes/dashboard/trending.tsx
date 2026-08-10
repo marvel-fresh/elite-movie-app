@@ -1,6 +1,5 @@
 import { Link } from "react-router";
 import { movies } from "@/data/trending";
-import type { Movie } from "@/types/latest";
 import Footer from "@/layout/footer"
 const TrendingPage = () => {
   return (

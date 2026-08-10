@@ -1,29 +1,63 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router";
-import { upcomingMovies } from "@/data/upcoming";
-import type { Movie } from "@/types/upcoming";
 import Footer from "@/layout/footer";
+import { getImageURL } from "@/lib/functions";
+import { getUpcoming } from "@/data/movies";
+import NowPlayingHero from "@/components/swiper";
+
+import type { MoviesListProps } from "@/types/movies.type";
 
 const UpcomingPage = () => {
+  const [nowPlaying, setNowPlaying] = useState<MoviesListProps[]>([]);
+  const [movies, setMovies] = useState<MoviesListProps[]>([]);
+
+  useEffect(() => {
+    const getData = async () => {
+      const upComing = await Promise.all([getUpcoming()]);
+      setNowPlaying(upComing[0]);
+    };
+    getData();
+  }, []);
+
+
+  useEffect(() => {
+    const fetchUpcoming = async () => {
+      const upComing = await Promise.all([getUpcoming()]);
+      setMovies(upComing[0]);
+    };
+
+    fetchUpcoming();
+  }, []);
+
+  if (!movies.length) {
+    return <p>Loading movies...</p>;
+  }
+
+  const heroMovie = movies[0];
+
   return (
     <>
-
+    <NowPlayingHero nowPlaying={nowPlaying}/>
       <section
         className="upcoming-hero"
         style={{
-          backgroundImage: `url(/movie/${upcomingMovies[0].banner})`,
+          backgroundImage: `url(https://image.tmdb.org/t/p/original${heroMovie.poster_path})`,
         }}
       >
         <div className="hero-overlay">
           <div className="hero-content">
-            <h1>{upcomingMovies[0].title}</h1>
-            <p>Coming {upcomingMovies[0].releaseDate}</p>
+            <h1>{heroMovie.title}</h1>
+
+            <p>
+              Coming {heroMovie.release_date}
+            </p>
 
             <div className="hero-buttons">
-              <Link to={`/upcoming/${upcomingMovies[0].id}`}>
-                <button className="hero-btn">Details</button>
+              <Link to={`/upcoming/${heroMovie.id}`}>
+                <button className="hero-btn">
+                  Details
+                </button>
               </Link>
-
-
             </div>
           </div>
         </div>
@@ -34,17 +68,17 @@ const UpcomingPage = () => {
         <h2>Coming Soon</h2>
 
         <div className="movies-grid">
-          {upcomingMovies.map((movie) => (
+          {movies.map((movie) => (
             <div className="movie-card" key={movie.id}>
               <img
-                src={`/movies/${movie.banner}`}
+                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                 alt={movie.title}
               />
 
               <div className="movie-info">
                 <h3>{movie.title}</h3>
-                <p>{movie.releaseDate}</p>
-                <p>{movie.genre}</p>
+
+                <p>{movie.release_date}</p>
 
                 <Link to={`/upcoming/${movie.id}`}>
                   <button className="hero-btn">

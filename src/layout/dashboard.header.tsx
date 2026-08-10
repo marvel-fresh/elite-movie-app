@@ -1,3 +1,5 @@
+
+import { Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
 
@@ -57,12 +59,7 @@ const header = document.getElementsByClassName('dashboard-header');
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                 />
-                <button type="button" className="btn btn-brand" onClick={() => {
-                    alert('Search is not found')
-                }}
-                >
-                    🔍
-                </button>
+              <Search className="search-icon" size={18} />
 
             </div>
 

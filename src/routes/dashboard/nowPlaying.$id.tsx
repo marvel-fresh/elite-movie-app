@@ -1,66 +1,29 @@
-// import { useParams } from "react-router";
-// import { movies } from "@/data/trending";
-// import { getImageURL } from "@/lib/functions";
-// import Sections from "@/components/sections";
-// const TrendingDetails = () => {
-//   const { id } = useParams();
-
-//   const movie = movies.find((popular) => popular.id === id);
-
-//   if (!movie) {
-//     return <h2>Movie not found</h2>;
-//   }
-
-//   return (
-// <div className="movie-details">
-//   <div className="banner-wrapper">
-//     <img
-//       src={getImageURL(movie.banner, "md")}
-//       alt={movie.title}
-//       className="details-banner"
-//     />
-
-//     <div className="details-content">
-//       <h1>{movie.title}</h1>
-//       <p>{movie.year}</p>
-//       <p>{movie.genre}</p>
-//       <p>{movie.description}</p>
-//     </div>
-//   </div>
-// </div>
-    
-//   );
-// };
-
-// export default TrendingDetails;
-
-
-
 
 import { useEffect, useState } from "react";
 import { Link, useParams, useSearchParams } from "react-router";
 import { getImageURL } from "@/lib/functions";
-import { getMovieById, getMovieCredits, getSimilarMovies } from "@/data/movies";
-import type { MovieCredits, MovieDetailsProps, MoviesListProps, } from "@/types/movies.type";
+import { getMovieById, getMovieCredits, getRecommendation, getSimilarMovies } from "@/data/movies";
+import type { MovieCredits, MovieDetailsProps, MoviesListProps,  Recommendation } from "@/types/movies.type";
 import { Play, Plus, Languages, MapPin, Info, Star, MoreHorizontal } from "lucide-react";
 import Credit from "@/components/credit";
 import Sections from "@/components/sections";
-// removed unused import: SimlarMovie
+import Recommendations from "@/components/recommendations"
 
 type Tabs = 'overview' | 'details' | 'credit' | 'reviews' | 'recommendation';
 
-function TrendingDetails() {
-  const { id } = useParams();
-const [searchParams] = useSearchParams();
+function NowPlaying() {
+ const { id } = useParams();
 
+const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
 const [movie, setMovie] = useState<MovieDetailsProps | null>(null);
 const [credit, setCredit] = useState<MovieCredits | null>(null);
 const [similar, setSimilar] = useState<MoviesListProps[]>([]);
   void similar;
+   
+const [searchParams, setSearchParams] = useSearchParams();
 
-const [activeTab, setActiveTab] = useState<Tabs>(
-  (searchParams.get("tab") as Tabs) || "overview"
-);
+const activeTab = (searchParams.get("tab") as Tabs) || "overview";
+
 
   type TabsType = { 
     text: string,
@@ -84,15 +47,17 @@ const [activeTab, setActiveTab] = useState<Tabs>(
   useEffect(() => {
     if (id) {
       const getData = async () => {
-        const [movieInfo, creditInfo, similarInfo] = await Promise.all([
+        const [movieInfo, creditInfo, similarInfo,recommendationsInfo] = await Promise.all([
           getMovieById(id),
           getMovieCredits(id),
-          getSimilarMovies(id)
+          getSimilarMovies(id),
+          getRecommendation (id)
         ])
 
         setMovie(movieInfo)
         setCredit(creditInfo)
         setSimilar(similarInfo)
+        setRecommendations(recommendationsInfo)
       }
 
       getData()
@@ -217,7 +182,7 @@ const [activeTab, setActiveTab] = useState<Tabs>(
           <button
             key={i}
             className={activeTab === tab.activeTab ? "active" : ""}
-            onClick={() => setActiveTab(tab.activeTab)}
+            onClick={() => setSearchParams({ tab: tab.activeTab })}
           >
             {tab.text}
           </button>
@@ -400,7 +365,7 @@ const [activeTab, setActiveTab] = useState<Tabs>(
             <Credit
               cast={credit?.cast || []}
               crew={[]}
-               movieId={movie.id}
+              movieId={movie.id}
             />
           </>
         )}
@@ -427,15 +392,12 @@ const [activeTab, setActiveTab] = useState<Tabs>(
           </div>
         )}
 
-        {activeTab === "recommendation" && (
-          <div className="tab-section">
-            <Sections
-              title="Recommendation "
-              movies={[]}
-              hasViewMore={false}
-            />
-          </div>
-        )}
+  {activeTab === "recommendation" && (
+  <div className="tab-section">
+    <Recommendations movies={recommendations} />
+  </div>
+)}
+
       </div>
 
 
@@ -445,4 +407,4 @@ const [activeTab, setActiveTab] = useState<Tabs>(
   );
 }
 
-export default TrendingDetails;
+export default NowPlaying;

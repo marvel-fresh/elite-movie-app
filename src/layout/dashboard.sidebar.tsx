@@ -1,68 +1,57 @@
+import { Home, TrendingUp, MoveIcon, TvIcon, Save, HistoryIcon, Settings, type LucideIcon, Flame, PlayIcon, Clapperboard, Bookmark } from 'lucide-react';
 import { NavLink } from 'react-router'
 
-const sidebarLinks = [
-  { label: 'Elite', to: '/dashboard/elite' },
-  { label: 'Latest', to: '/dashboard/latest' },
-  { label: 'Trending', to: '/dashboard/trending' },
-  { label: 'Upcoming', to: '/dashboard/upcoming' },
+interface SidebarLinkProps {
+  label: string
+  icon: LucideIcon
+  to: string
+}
 
+const sidebarLinks: SidebarLinkProps[] = [
+  { label: 'Home', icon: Home, to: '/' },
+  { label: 'Trending', icon: Flame, to: '/trending' },
+  { label: 'Popular', icon: TrendingUp, to: '/popular' },
+  { label: 'Movie', icon: Clapperboard, to: '/movie' },
+  { label: 'Tv Shows', icon: TvIcon, to: '/tvshows' },
+  { label: 'WatchLists', icon: Bookmark, to: '/watchlists' },
+  { label: 'History', icon: HistoryIcon, to: '/history' },
+  { label: 'Settings', icon: Settings, to: '/settings' },
 ]
 
 
-function DashboardSidebar({logOut}:{logOut:()=>void }) {
+function DashboardSidebar({ logOut }: { logOut: () => void }) {
 
 
   return (
     <>
-      <nav className="">
-        <h4>Dashboard Menu</h4>
-        <div>
-          {sidebarLinks.map((item) => (
-            <div key={item.to}>
+      <nav className="sidebar-nav">
+        
+          {sidebarLinks.map(({icon:Icon, label, to}, i) => (
+           
               <NavLink
-                to={item.to}
-                className={({ isActive }) => 
-                    `sidebar-btn ${isActive ? 'active-link' : ''}`}
+              key={i}
+                to={to}
+                className={({ isActive }) =>
+                  `sidebar-btn ${isActive ? 'active-link' : ''}`}
               >
-                {item.label}
+                <div className="active-bar"/>
+
+                <Icon size={20}/>
+                <span>
+                  {label}
+                  </span>
               </NavLink>
-            </div>
+           
           ))}
-        </div>
+        
 
-         
-          
 
-        <div className="sidebar-section">
-          <h4>Reports</h4>
-          <div>
-            <div>
-              <NavLink
-                to="/dashboard/reports"
-                className={({isActive }) =>
-                    `sidebar-btn ${isActive ? 'active-link' : ''}`
-            }
-              >
-                Reports
-              </NavLink>
-            </div>
-          </div>
-        </div>
-
-              <NavLink
-                to="/dashboard/profile"
-                className={({isActive})=>
-                    `sidebar-btn ${isActive ? 'active-link' : ''}`
-            }
-              >
-                Profile
-              </NavLink>
-                    <button
-                className={`sidebar-btn btn-logout`}
-                onClick={logOut}
-              >
-                Logout
-              </button>
+        <button
+          className={`sidebar-btn btn-logout`}
+          onClick={logOut}
+        >
+          Logout
+        </button>
       </nav>
     </>
   )

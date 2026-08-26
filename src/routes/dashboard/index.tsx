@@ -2,7 +2,7 @@ import { getNowPlaying, getPopular, getUpcoming } from "@/data/movies";
 import { useEffect, useState } from "react";
 import Footer from "@/layout/footer"
 import type { MoviesListProps } from "@/types/movies.type";
-import { getImageURL } from "@/lib/functions";
+// removed unused import: getImageURL
 import NowPlayingHero from "@/components/swiper";
 import Sections from "@/components/sections";
 const DashboardPage = () => {
@@ -10,6 +10,7 @@ const DashboardPage = () => {
   const [nowPlaying, setNowPlaying] = useState<MoviesListProps[]>([])
   const [popular, setPopular] = useState<MoviesListProps[]>([])
 const [upcoming, setUpcoming] = useState<MoviesListProps[]>([])
+  void upcoming;
 
   useEffect(()=>{
     const getData =async ()=>{

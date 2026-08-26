@@ -1,0 +1,92 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+:root{
+--brand-primary:#bf0000;
+--brand-primary-hover:#a01b1b;
+--background-color: #130f0f;
+--text-color:#ebebeb;
+--text-muted:#b5b5b5;
+--border-color:#6d6d6d;
+}
+
+
+body{
+  font-family:"Lato", Verdana, Geneva, Tahoma, sans-serif;  
+}
+
+
+
+.content{
+display: flex;
+width: 100%;
+background-color: var(--background-color);
+}
+.sidebar{
+
+    display: flex;
+    flex-direction: column;
+    width: 6%;
+
+}
+.container{
+
+    width: 94%;
+
+}
+
+
+
+.sidebar-nav{
+    margin-top:48px;
+    padding: 24px 8px;
+    padding-left: 0;
+    gap:32px;
+    display: flex;
+    flex-direction: column;
+    border-right:1px solid var(--border-color)
+}
+
+.sidebar-btn{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    gap:4px;
+    color: var(--text-muted);
+    transition: all ease-in-out 5ms;
+    padding:6px 4px;
+
+    position: relative;
+}
+
+.sidebar-btn svg{
+    font-size: 40px;
+}
+
+.sidebar-btn span{
+text-decoration: inherit;
+font-size: 10px;
+line-height: 1;
+text-align: center;
+
+}
+
+.sidebar-btn:hover{
+    color:var(--brand-primary-hover);
+    background-color: rgb(from var(--brand-primary) r g b / 5%);
+    border-radius: 16px;
+}
+
+.sidebar-btn.active-link{
+    color: var(--brand-primary);
+
+}
+
+.sidebar-btn.active-link .active-bar{
+    position: absolute;
+    height: 80%;
+    width: 2px;
+    background-color: var(--brand-primary);
+    left: 0;
+}

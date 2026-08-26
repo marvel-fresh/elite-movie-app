@@ -10,6 +10,22 @@ export interface Collection {
   backdrop_path: string;
 }
 
+export interface PersonDetailsProps {
+"biography": string,
+  "birthday": string | null,
+  "deathday": string | null,
+  "gender": number,
+  "homepage": string | null,
+  "id": number,
+  "imdb_id": string,
+  "known_for_department": string,
+  "name": string,
+  "place_of_birth": string | null,
+  "popularity": number,
+  "profile_path": string | null
+  "also_known_as": string 
+}
+
 export interface MoviesListProps{
       "adult": boolean,
       "backdrop_path": string,
@@ -22,12 +38,27 @@ export interface MoviesListProps{
       "popularity": number,
       "poster_path": string,
       "release_date": string,
-      "softcore": boolean,
       "video": boolean,
       "vote_average": number,
       "vote_count": number
     }
-
+export interface Recommendation {
+  adult: boolean;
+  backdrop_path: string ;
+  id: number;
+  title: string;
+  original_title: string;
+  overview: string;
+  poster_path: string ;
+  media_type: "movie";
+  original_language: string;
+  genre_ids: number[];
+  popularity: number;
+  release_date: string;
+  video: boolean;
+  vote_average: number;
+  vote_count: number;
+}
 export interface MovieDetailsProps
 {
   "adult": boolean,
@@ -42,6 +73,7 @@ export interface MovieDetailsProps
   "original_language": string,
   "original_title": string,
   "overview": string,
+  "credits": MovieCredits,
   "popularity": number,
   "poster_path": string,
   "production_companies": ProductionCompanies[],
@@ -111,3 +143,14 @@ export interface Crew {
   department: string;
   job: string;
 }
+
+export interface SimilarMovies {
+  page: number;
+  results: MoviesListProps[];
+  total_pages: number;
+  total_results: number;
+ 
+   
+    }
+
+

@@ -2,12 +2,14 @@ import './App.css'
 import { BrowserRouter, Route, Routes } from 'react-router';
 import DashboardPage from './routes/dashboard';
 import LandingLayout from './layout/landing.main';
-import Latest from './routes/dashboard/latest';
+// import Latest from './routes/dashboard/latest';
 import UpComingMovies from './routes/dashboard/upcoming';
 import TrendingMovies from './routes/dashboard/trending';
 import TrendingPage from './routes/dashboard/trending';
 import TrendingDetails from './routes/dashboard/trending.$id';
-
+import NowPlaying from './routes/dashboard/nowPlaying.$id';
+import Person from './routes/dashboard/person.$id';
+// import PersonDetails from './routes/dashboard/personDetails'
 function App() {
 
   return (
@@ -17,9 +19,12 @@ function App() {
           <Route index element={<DashboardPage />} />
           <Route path="trending" element={<TrendingMovies />} />
           <Route path="/trending" element={<TrendingPage />} />
-<Route path="/trending/:id" element={<TrendingDetails />} />
-          <Route path="latest" element={<Latest />} />
+          <Route path="/trending/:id" element={<TrendingDetails />} />
+          {/* <Route path="/person/:id" element={<PersonDetails />} /> */}
+          <Route path="/now-playing/:id" element={<NowPlaying />} />
+          {/* <Route path="latest" element={<Latest />} /> */}
           <Route path="UpComing" element={<UpComingMovies />} />
+          <Route path="/person/:id" element={<Person />} />
         </Route>
 
         {/* <Route element={<AuthLayout />}>

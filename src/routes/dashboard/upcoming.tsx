@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import Footer from "@/layout/footer";
-import { getImageURL } from "@/lib/functions";
+// removed unused import: getImageURL
 import { getUpcoming } from "@/data/movies";
 import NowPlayingHero from "@/components/swiper";
 

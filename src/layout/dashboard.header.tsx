@@ -1,71 +1,68 @@
-
-import { Search } from "lucide-react";
+import { ArrowLeft, Search } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 interface HeaderProps {
     isLoggedIn: boolean;
 }
 
-
 function DashboardHeader({ isLoggedIn }: HeaderProps) {
+    void isLoggedIn;
 
-useEffect(()=>{
-const header = document.getElementsByClassName('dashboard-header');
+    const navigate = useNavigate();
+    const [searchQuery, setSearchQuery] = useState<string>("");
 
-    window.addEventListener('scroll', () => {
-    const getScroll = window.scrollY
-  if (getScroll > 30) {
-    header[0]?.classList.add("scrolled")
-    console.log("User passed the threshold!");
-  }
-  else{
-    header[0]?.classList.remove("scrolled")
+    useEffect(() => {
+        const header = document.getElementsByClassName("dashboard-header");
 
-  }
-    })
-},[])
+        const handleScroll = () => {
+            const getScroll = window.scrollY;
 
+            if (getScroll > 30) {
+                header[0]?.classList.add("scrolled");
+            } else {
+                header[0]?.classList.remove("scrolled");
+            }
+        };
 
+        window.addEventListener("scroll", handleScroll);
 
+        // Cleanup event listener
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }, []);
 
-    const [searchQuery, setSearchQuery] = useState<string>("")
     return (
-
         <header className="dashboard-header">
 
-            <h3 className="app-name"> 🎬Elite Movies</h3>
-            <nav>
-                <ul className="nav-links">
-                    <li>
-                        <Link to="/">Home</Link>
-                    </li>
-                    <li>
-                        <Link to="/trending">Trending</Link>
-                    </li>
-                    <li>
-                        <Link to="/upComing">UpComing</Link>
-                    </li>
-                    <li>
-                        <Link to="/latest">Latest</Link>
-                    </li>
-                </ul>
-            </nav>
+            <button
+                onClick={() => navigate(-1)}
+                className="back-btn"
+            >
+                <ArrowLeft size={20} />
+                <span>Back</span>
+            </button>
 
-            <div className="header-search" >
+            <h3 className="app-name">🎬 Elite Movies</h3>
+
+           
+
+            <div className="header-search">
                 <input
                     type="search"
                     placeholder="Search results..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                 />
-              <Search className="search-icon" size={18} />
 
+                <Search
+                    className="search-icon"
+                    size={18}
+                />
             </div>
 
-
         </header>
-
     );
 }
 

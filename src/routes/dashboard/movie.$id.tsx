@@ -1,66 +1,31 @@
-// import { useParams } from "react-router";
-// import { movies } from "@/data/trending";
-// import { getImageURL } from "@/lib/functions";
-// import Sections from "@/components/sections";
-// const TrendingDetails = () => {
-//   const { id } = useParams();
-
-//   const movie = movies.find((popular) => popular.id === id);
-
-//   if (!movie) {
-//     return <h2>Movie not found</h2>;
-//   }
-
-//   return (
-// <div className="movie-details">
-//   <div className="banner-wrapper">
-//     <img
-//       src={getImageURL(movie.banner, "md")}
-//       alt={movie.title}
-//       className="details-banner"
-//     />
-
-//     <div className="details-content">
-//       <h1>{movie.title}</h1>
-//       <p>{movie.year}</p>
-//       <p>{movie.genre}</p>
-//       <p>{movie.description}</p>
-//     </div>
-//   </div>
-// </div>
-    
-//   );
-// };
-
-// export default TrendingDetails;
-
-
-
 
 import { useEffect, useState } from "react";
 import { Link, useParams, useSearchParams } from "react-router";
 import { getImageURL } from "@/lib/functions";
-import { getMovieById, getMovieCredits, getSimilarMovies } from "@/data/movies";
-import type { MovieCredits, MovieDetailsProps, MoviesListProps, } from "@/types/movies.type";
-import { Play, Plus, Languages, MapPin, Info, Star, MoreHorizontal } from "lucide-react";
+import { getMovieById, getMovieCredits, getRecommendation, getSimilarMovies } from "@/data/movies";
+import type { MovieCredits, MovieDetailsProps, MoviesListProps,   } from "@/types/movies.type";
+import { Play, Languages, MapPin, Info, Star, MoreHorizontal } from "lucide-react";
 import Credit from "@/components/credit";
-import Sections from "@/components/sections";
-// removed unused import: SimlarMovie
-
+import Recommendations from "@/components/recommendations";
+import {Bookmark,BookmarkCheck,} from "lucide-react";
+import {addToWatchlist,removeFromWatchlist,isInWatchlist,} from "@/lib/watchlist";
+import BackButton from "@/components/BackButton";
 type Tabs = 'overview' | 'details' | 'credit' | 'reviews' | 'recommendation';
 
-function TrendingDetails() {
-  const { id } = useParams();
-const [searchParams] = useSearchParams();
+function Movie() {
+ const { id } = useParams();
 
+const [recommendations, setRecommendations] = useState<MoviesListProps[]>([]);
 const [movie, setMovie] = useState<MovieDetailsProps | null>(null);
 const [credit, setCredit] = useState<MovieCredits | null>(null);
 const [similar, setSimilar] = useState<MoviesListProps[]>([]);
-  void similar;
+void similar;
+   
+const [searchParams, setSearchParams] = useSearchParams();
 
-const [activeTab, setActiveTab] = useState<Tabs>(
-  (searchParams.get("tab") as Tabs) || "overview"
-);
+const activeTab = (searchParams.get("tab") as Tabs) || "overview";
+const [inWatchlist, setInWatchlist] =
+  useState(false);
 
   type TabsType = { 
     text: string,
@@ -79,20 +44,28 @@ const [activeTab, setActiveTab] = useState<Tabs>(
 
 
 
-
+useEffect(() => {
+  if (movie) {
+    setInWatchlist(
+      isInWatchlist(movie.id)
+    );
+  }
+}, [movie]);
 
   useEffect(() => {
     if (id) {
       const getData = async () => {
-        const [movieInfo, creditInfo, similarInfo] = await Promise.all([
+        const [movieInfo, creditInfo, similarInfo,recommendationsInfo] = await Promise.all([
           getMovieById(id),
           getMovieCredits(id),
-          getSimilarMovies(id)
+          getSimilarMovies(id),
+          getRecommendation (id)
         ])
 
         setMovie(movieInfo)
         setCredit(creditInfo)
         setSimilar(similarInfo)
+        setRecommendations(recommendationsInfo)
       }
 
       getData()
@@ -101,6 +74,17 @@ const [activeTab, setActiveTab] = useState<Tabs>(
   }, [id]);
   const director = credit?.crew?.filter((person) => (person.job === "Director"))
   const writters = credit?.crew?.filter((person) => (person.job === "Writer"))
+  const handleWatchlist = () => {
+  if (!movie) return;
+
+  if (inWatchlist) {
+    removeFromWatchlist(movie.id);
+    setInWatchlist(false);
+  } else {
+    addToWatchlist(movie);
+    setInWatchlist(true);
+  }
+};
 
   if (!movie) {
     return <p>Loading...</p>;
@@ -108,11 +92,14 @@ const [activeTab, setActiveTab] = useState<Tabs>(
 
   return (
     <section className="movie-page">
-      <section className="hero" style={{ backgroundImage: `url(${getImageURL(movie?.backdrop_path, "xl")})` }}>
 
+      <section className="hero" style={{ backgroundImage: `url(${getImageURL(movie?.backdrop_path, "xl")})` }}>
+  
         <div className="backdrop" />
+        
         <div className="hero-content">
 
+      <BackButton />
 
           <div className="top-rated">
             <Star size={14} />
@@ -183,7 +170,7 @@ const [activeTab, setActiveTab] = useState<Tabs>(
           <div className="movie-buttons">
 
             <Link
-              to={`/now-playing/${movie?.id}`}
+              to={`/movie/${movie?.id}`}
               className="watch-now-btn"
             >
               <Play size={16} fill="currentColor" />
@@ -195,10 +182,22 @@ const [activeTab, setActiveTab] = useState<Tabs>(
               Trailer
             </button>
 
-            <button className="trailer-btn">
-              <Plus size={17} />
-              Watchlist
-            </button>
+          <button
+  className="trailer-btn"
+  onClick={handleWatchlist}
+>
+  {inWatchlist ? (
+    <>
+      <BookmarkCheck size={18} />
+      Added to Watchlist
+    </>
+  ) : (
+    <>
+      <Bookmark size={18} />
+      Add to Watchlist
+    </>  
+  )}
+</button>
 
             <button className="more-btn">
               <MoreHorizontal size={20} />
@@ -217,7 +216,7 @@ const [activeTab, setActiveTab] = useState<Tabs>(
           <button
             key={i}
             className={activeTab === tab.activeTab ? "active" : ""}
-            onClick={() => setActiveTab(tab.activeTab)}
+            onClick={() => setSearchParams({ tab: tab.activeTab })}
           >
             {tab.text}
           </button>
@@ -400,7 +399,7 @@ const [activeTab, setActiveTab] = useState<Tabs>(
             <Credit
               cast={credit?.cast || []}
               crew={[]}
-               movieId={movie.id}
+              movieId={movie.id}
             />
           </>
         )}
@@ -427,15 +426,12 @@ const [activeTab, setActiveTab] = useState<Tabs>(
           </div>
         )}
 
-        {activeTab === "recommendation" && (
-          <div className="tab-section">
-            <Sections
-              title="Recommendation "
-              movies={[]}
-              hasViewMore={false}
-            />
-          </div>
-        )}
+  {activeTab === "recommendation" && (
+  <div className="tab-section">
+    <Recommendations movies={recommendations} />
+  </div>
+)}
+
       </div>
 
 
@@ -445,4 +441,4 @@ const [activeTab, setActiveTab] = useState<Tabs>(
   );
 }
 
-export default TrendingDetails;
+export default Movie;

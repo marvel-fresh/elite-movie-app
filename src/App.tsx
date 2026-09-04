@@ -2,13 +2,23 @@ import './App.css'
 import { BrowserRouter, Route, Routes } from 'react-router';
 import DashboardPage from './routes/dashboard';
 import LandingLayout from './layout/landing.main';
-// import Latest from './routes/dashboard/latest';
-import UpComingMovies from './routes/dashboard/upcoming';
+import TV from './routes/dashboard/tv.$id';
+import AuthLayout from './layout/auth';
+import LoginForm from './routes/auth/login';
+import RegistrationForm from './routes/auth/registration';
 import TrendingMovies from './routes/dashboard/trending';
 import TrendingPage from './routes/dashboard/trending';
-import TrendingDetails from './routes/dashboard/trending.$id';
-import NowPlaying from './routes/dashboard/nowPlaying.$id';
+import PopularPage from './routes/dashboard/popular';
+import Movie from './routes/dashboard/movie.$id';
 import Person from './routes/dashboard/person.$id';
+import SearchPage from './layout/searchpage'
+import Settings from './routes/dashboard/settings'
+import Watchlist from './routes/dashboard/watchlist'
+import Discover from "./routes/dashboard/discover";
+<Route
+  path="/settings"
+  element={<Settings />}
+/>
 // import PersonDetails from './routes/dashboard/personDetails'
 function App() {
 
@@ -19,22 +29,23 @@ function App() {
           <Route index element={<DashboardPage />} />
           <Route path="trending" element={<TrendingMovies />} />
           <Route path="/trending" element={<TrendingPage />} />
-          <Route path="/trending/:id" element={<TrendingDetails />} />
-          {/* <Route path="/person/:id" element={<PersonDetails />} /> */}
-          <Route path="/now-playing/:id" element={<NowPlaying />} />
-          {/* <Route path="latest" element={<Latest />} /> */}
-          <Route path="UpComing" element={<UpComingMovies />} />
+          <Route path="/popular" element={<PopularPage />} />
+          <Route path="/search" element={<SearchPage />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/watchlists" element={<Watchlist />} />
+          <Route path="/movie/:id" element={<Movie />} />
+          <Route path="/discover" element={<Discover />} />
+          <Route path="/movie/:id" element={<Movie />} />
           <Route path="/person/:id" element={<Person />} />
+          <Route path="/tv/:id" element={<TV />} />
         </Route>
+        
 
-        {/* <Route element={<AuthLayout />}>
+        <Route element={<AuthLayout />}>
           <Route path="/login" element={<LoginForm />} />
           <Route path="/register" element={<RegistrationForm />} />
-        </Route> */}
+        </Route>
         <Route path="/dashboard" element={<DashboardPage />} />
-        {/* <Route index element={<LatestMovies />} />
-        <Route path="/dashboard/latest" element={<LatestMovies />} /> */}
-
 
       </Routes>
     </BrowserRouter>

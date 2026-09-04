@@ -17,7 +17,7 @@ function Credit({ cast, crew, movieId }: CreditProps) {
 
         <Link
           className="view-all-btn"
-          to={`/now-playing/${movieId}?tab=credit`}
+          to={`/movie/${movieId}?tab=credit`}
         >
           View All
           <ChevronRight size={16} />

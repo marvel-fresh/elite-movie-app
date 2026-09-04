@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
-import Footer from "@/layout/footer";
+
 // removed unused import: getImageURL
 import { getUpcoming } from "@/data/movies";
 import NowPlayingHero from "@/components/swiper";
@@ -91,7 +91,7 @@ const UpcomingPage = () => {
         </div>
       </section>
 
-      <Footer />
+      
     </>
   );
 };

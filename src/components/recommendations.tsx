@@ -1,9 +1,9 @@
-import type { Recommendation } from "@/types/movies.type";
+import type { MoviesListProps } from "@/types/movies.type";
 import { Link } from "react-router";
 import { getImageURL } from "@/lib/functions";
 
 interface RecommendationsProps {
-  movies: Recommendation[];
+  movies: MoviesListProps[];
 }
 
 const Recommendations = ({ movies }: RecommendationsProps) => {
@@ -17,7 +17,7 @@ const Recommendations = ({ movies }: RecommendationsProps) => {
         {movies.map((movie) => (
           <Link
             key={movie.id}
-            to={`/now-playing/${movie.id}?tab=recommendation`}
+            to={`/movie/${movie.id}?tab=recommendation`}
             className="recommendation-card"
           >
             <img

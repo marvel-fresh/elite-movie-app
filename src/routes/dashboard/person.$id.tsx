@@ -5,7 +5,7 @@ import { getImageURL } from "@/lib/functions";
 import { getActorSocial, getPersonById, getPersonGallery, getPersonMovieCredits, getPersonTvCredits, } from "@/data/movies";
 import type { PersonDetailsProps } from "@/types/movies.type";
 import type { ActorsCredits, PersonGallery, PersonSocails, } from "@/types/cast.type";
-
+import BackButton from "@/components/BackButton";
 type Tabs = "overview" | "filmography" | "gallery";
 type FilmographyTab = "movies" | "tv";
 
@@ -111,20 +111,23 @@ function PersonDetails() {
             <section className="person-loading">
                 <h2>Person not found</h2>
 
-                
-                                    <Link to={`/now-playing/${id}`} className="item-btn">
-                                      Go Back
-                                    </Link>
+
+                <Link to={`/movie/${id}`} className="item-btn">
+                    Go Back
+                </Link>
             </section>
         );
     }
 
     return (
+        
         <main className="person-page">
 
-
+   <BackButton/>
             <section className="person-hero">
+                
                 <div className="person-profile">
+                 
                     {person.profile_path ? (
                         <img
                             src={getImageURL(person.profile_path, "xl")}
@@ -375,7 +378,7 @@ function PersonDetails() {
                                                         <Link
                                                             to={
                                                                 filmographyTab === "movies"
-                                                                    ? `/now-playing/${credit.id}`
+                                                                    ? `/movie/${credit.id}`
                                                                     : `/tv/${credit.id}`
                                                             }
                                                             className="filmography-details-btn"
@@ -393,7 +396,7 @@ function PersonDetails() {
                                                         <Link
                                                             to={
                                                                 filmographyTab === "movies"
-                                                                    ? `/now-playing/${credit.id}`
+                                                                    ? `/movie/${credit.id}`
                                                                     : `/tv/${credit.id}`
                                                             }
                                                             className="filmography-details-btn"
@@ -679,7 +682,7 @@ function PersonDetails() {
                                                     <Link
                                                         to={
                                                             filmographyTab === "movies"
-                                                                ? `/now-playing/${credit.id}`
+                                                                ? `/movie/${credit.id}`
                                                                 : `/tv/${credit.id}`
                                                         }
                                                         className="filmography-details-btn"
@@ -694,7 +697,7 @@ function PersonDetails() {
                                                     <Link
                                                         to={
                                                             filmographyTab === "movies"
-                                                                ? `/now-playing/${credit.id}`
+                                                                ? `/movie/${credit.id}`
                                                                 : `/tv/${credit.id}`
                                                         }
                                                         className="filmography-details-btn"

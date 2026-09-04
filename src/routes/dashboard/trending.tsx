@@ -1,54 +1,89 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router";
-import { getImageURL } from "@/lib/functions";
-import { getPopular } from "@/data/movies";
+
+import {
+  getTrendingMovies,
+  getTrendingTV,
+} from "@/data/movies";
+
 import type { MoviesListProps } from "@/types/movies.type";
-import Footer from "@/layout/footer";
+
+import MediaGrid from "@/components/media-grid";
 
 const TrendingPage = () => {
   const [movies, setMovies] = useState<MoviesListProps[]>([]);
+  const [activeTab, setActiveTab] =
+    useState<"movie" | "tv">("movie");
 
   useEffect(() => {
-    const fetchMovies = async () => {
-      const data = await getPopular();
-      setMovies(data);
+    const fetchTrending = async () => {
+      try {
+        const data =
+          activeTab === "movie"
+            ? await getTrendingMovies()
+            : await getTrendingTV();
+
+        setMovies(data);
+      } catch (error) {
+        console.error(
+          "Failed to fetch trending:",
+          error
+        );
+
+        setMovies([]);
+      }
     };
 
-    fetchMovies();
-  }, []);
+    fetchTrending();
+  }, [activeTab]);
 
   return (
-    <>
-      <div className="trending-page">
-        <div className="movies-grid">
-          {movies.map((popular) => (
-            <div key={popular.id} className="movie-card">
-              <img
-                src={getImageURL(popular.poster_path, "md")}
-                alt={popular.title}
-              />
+    <main className="discover-page">
+      <div className="discover-container">
+        <div className="discover-heading">
+          <div>
+            <h2>Trending</h2>
+            <p>
+              Discover what's trending this week.
+            </p>
+          </div>
 
-              <h3>{popular.title}</h3>
-
-              <p>
-                {popular.release_date
-                  ? popular.release_date.substring(0, 4)
-                  : "N/A"}
-              </p>
-
-              <Link
-                to={`/trending/${popular.id}`}
-                className="hero-btn"
+          <div className="filmography-tabs">
+            <div className="media-tabs">
+              <button
+                className={`media-tab ${
+                  activeTab === "movie"
+                    ? "active"
+                    : ""
+                }`}
+                onClick={() =>
+                  setActiveTab("movie")
+                }
               >
-                Details
-              </Link>
-            </div>
-          ))}
-        </div>
-      </div>
+                Movies
+              </button>
 
-      <Footer />
-    </>
+              <button
+                className={`media-tab ${
+                  activeTab === "tv"
+                    ? "active"
+                    : ""
+                }`}
+                onClick={() =>
+                  setActiveTab("tv")
+                }
+              >
+                TV Shows
+              </button>
+            </div>
+          </div>
+        </div>
+
+       <MediaGrid
+  movies={movies}
+  type={activeTab}
+/>
+      </div>
+    </main>
   );
 };
 

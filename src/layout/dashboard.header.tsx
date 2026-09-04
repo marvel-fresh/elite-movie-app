@@ -1,69 +1,114 @@
-import { ArrowLeft, Search } from "lucide-react";
+import { Bell, Menu, Search } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
+import "../global.css";
 
 interface HeaderProps {
-    isLoggedIn: boolean;
+  isLoggedIn: boolean;
+  openSidebar: () => void;
 }
 
-function DashboardHeader({ isLoggedIn }: HeaderProps) {
-    void isLoggedIn;
+function DashboardHeader({
+  isLoggedIn,
+  openSidebar,
+}: HeaderProps) {
+  void isLoggedIn;
 
-    const navigate = useNavigate();
-    const [searchQuery, setSearchQuery] = useState<string>("");
+  const [searchQuery, setSearchQuery] = useState("");
 
-    useEffect(() => {
-        const header = document.getElementsByClassName("dashboard-header");
+  const navigate = useNavigate();
 
-        const handleScroll = () => {
-            const getScroll = window.scrollY;
+  const handleSearch = () => {
+    if (!searchQuery.trim()) return;
 
-            if (getScroll > 30) {
-                header[0]?.classList.add("scrolled");
-            } else {
-                header[0]?.classList.remove("scrolled");
-            }
-        };
-
-        window.addEventListener("scroll", handleScroll);
-
-        // Cleanup event listener
-        return () => {
-            window.removeEventListener("scroll", handleScroll);
-        };
-    }, []);
-
-    return (
-        <header className="dashboard-header">
-
-            <button
-                onClick={() => navigate(-1)}
-                className="back-btn"
-            >
-                <ArrowLeft size={20} />
-                <span>Back</span>
-            </button>
-
-            <h3 className="app-name">🎬 Elite Movies</h3>
-
-           
-
-            <div className="header-search">
-                <input
-                    type="search"
-                    placeholder="Search results..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                />
-
-                <Search
-                    className="search-icon"
-                    size={18}
-                />
-            </div>
-
-        </header>
+    navigate(
+      `/search?query=${encodeURIComponent(searchQuery)}`
     );
+  };
+
+  useEffect(() => {
+    const header =
+      document.getElementsByClassName(
+        "dashboard-header"
+      );
+
+    const handleScroll = () => {
+      const getScroll = window.scrollY;
+
+      if (getScroll > 30) {
+        header[0]?.classList.add("scrolled");
+      } else {
+        header[0]?.classList.remove("scrolled");
+      }
+    };
+
+    window.addEventListener(
+      "scroll",
+      handleScroll
+    );
+
+    return () => {
+      window.removeEventListener(
+        "scroll",
+        handleScroll
+      );
+    };
+  }, []);
+
+  return (
+    <header className="dashboard-header">
+
+     
+      <button
+        className="hamburger"
+        onClick={openSidebar}
+        aria-label="Open menu"
+      >
+        <Menu size={28} />
+      </button>
+
+    
+      <div className="app-name">
+        <span className="elite">
+           ELITE
+        </span>{" "}
+        <span className="movie">
+          MOVIE
+        </span>
+      </div>
+
+    
+      <div className="header-search">
+        <Search
+          className="search-icon"
+          size={18}
+          onClick={handleSearch}
+        />
+
+        <input
+          type="search"
+          placeholder="Search movies..."
+          value={searchQuery}
+          onChange={(e) =>
+            setSearchQuery(e.target.value)
+          }
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleSearch();
+            }
+          }}
+        />
+      </div>
+
+      
+      <button className="notification-btn">
+        <Bell size={22} />
+
+        <span className="notification-dot"></span>
+      </button>
+
+    </header>
+  );
 }
 
 export default DashboardHeader;

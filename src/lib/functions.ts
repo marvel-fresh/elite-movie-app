@@ -4,7 +4,7 @@ type ImageURL = {
     size: 'sm' | 'md' | 'lg' | 'xl' 
 }
 
-const imageBaseUrl = import.meta.env.VITE_IMAGE_URL
+const imageBaseUrl = import.meta.env.IMAGE_URL
 
 export const getImageURL = (url: ImageURL['url'], size: ImageURL['size']) => {
     const sizes = [

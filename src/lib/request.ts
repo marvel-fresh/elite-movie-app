@@ -1,5 +1,5 @@
-const API_URL = import.meta.env.VITE_API_BASE_URL as string;
-const API_KEY = import.meta.env.VITE_API_KEY as string;
+const API_URL = import.meta.env.API_BASE_URL as string;
+const API_KEY = import.meta.env.API_KEY as string;
 
 export const getReq = async <T>(
   endpoint: string

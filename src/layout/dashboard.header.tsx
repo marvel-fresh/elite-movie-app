@@ -1,4 +1,4 @@
-import { Bell, Menu, Search } from "lucide-react";
+import { Bell, Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import "../global.css";
@@ -13,6 +13,7 @@ function DashboardHeader({
   openSidebar,
 }: HeaderProps) {
   void isLoggedIn;
+  void openSidebar;
 
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -59,13 +60,13 @@ function DashboardHeader({
     <header className="dashboard-header">
 
      
-      <button
+      {/* <button
         className="hamburger"
         onClick={openSidebar}
         aria-label="Open menu"
       >
         <Menu size={28} />
-      </button>
+      </button> */}
 
     
       <div className="app-name">

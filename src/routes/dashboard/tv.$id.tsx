@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useParams, useSearchParams } from "react-router";
+import {  useParams, useSearchParams } from "react-router";
 import {
   Play,
   Languages,
@@ -12,17 +12,19 @@ import {
 } from "lucide-react";
 
 import { getImageURL } from "@/lib/functions";
-
+import TrailerModal from "@/components/TrailerModal";
 import {
   getTVById,
   getTVCredits,
   getTVRecommendations,
+  getTVVideos
 } from "@/data/movies";
 
 import type {
   TVDetailsProps,
   TVCredits,
   TVListProps,
+  Trailer,
 } from "@/types/movies.type";
 
 import Credit from "@/components/credit";
@@ -45,12 +47,12 @@ type Tabs =
 function TV() {
   const { id } = useParams<{ id: string }>();
   const [searchParams, setSearchParams] = useSearchParams();
-
   const [tv, setTV] = useState<TVDetailsProps | null>(null);
   const [credit, setCredit] = useState<TVCredits | null>(null);
   const [recommendations, setRecommendations] = useState<TVListProps[]>([]);
   const [inWatchlist, setInWatchlist] = useState(false);
-
+  const [trailer, setTrailer] = useState<Trailer | null>(null);
+  const [isTrailerOpen, setIsTrailerOpen] = useState(false);
   const activeTab =
     (searchParams.get("tab") as Tabs) || "overview";
 
@@ -77,28 +79,54 @@ function TV() {
     },
   ];
 
-  useEffect(() => {
-    if (!id) return;
+useEffect(() => {
+  if (!id) return;
 
-    const getData = async () => {
-      try {
-        const [tvInfo, creditInfo, recommendationsInfo] =
-          await Promise.all([
-            getTVById(id),
-            getTVCredits(id),
-            getTVRecommendations(id),
-          ]);
+  const getData = async () => {
+    try {
+      const [
+        tvInfo,
+        creditInfo,
+        recommendationsInfo,
+      ] = await Promise.all([
+        getTVById(id),
+        getTVCredits(id),
+        getTVRecommendations(id),
+      ]);
 
-        setTV(tvInfo);
-        setCredit(creditInfo);
-        setRecommendations(recommendationsInfo);
-      } catch (error) {
-        console.error("Failed to fetch TV data:", error);
-      }
-    };
+      setTV(tvInfo);
+      setCredit(creditInfo);
+      setRecommendations(recommendationsInfo);
 
-    getData();
-  }, [id]);
+      const videosInfo = await getTVVideos(id);
+
+      const selectedTrailer =
+        videosInfo.results.find(
+          (video) =>
+            video.site === "YouTube" &&
+            video.type === "Trailer" &&
+            video.official
+        ) ??
+        videosInfo.results.find(
+          (video) =>
+            video.site === "YouTube" &&
+            video.type === "Trailer"
+        ) ??
+        videosInfo.results.find(
+          (video) =>
+            video.site === "YouTube" &&
+            video.type === "Teaser"
+        );
+
+      setTrailer(selectedTrailer ?? null);
+    } catch (error) {
+      console.error("Failed to fetch TV data:", error);
+      setTrailer(null);
+    }
+  };
+
+  getData();
+}, [id]);
 
   useEffect(() => {
     if (!tv) return;
@@ -129,13 +157,11 @@ function TV() {
     tv.created_by?.map((creator) => creator.name).join(", ") ||
     "N/A";
 
-  const seasons = `${tv.number_of_seasons} ${
-    tv.number_of_seasons === 1 ? "Season" : "Seasons"
-  }`;
+  const seasons = `${tv.number_of_seasons} ${tv.number_of_seasons === 1 ? "Season" : "Seasons"
+    }`;
 
-  const episodes = `${tv.number_of_episodes} ${
-    tv.number_of_episodes === 1 ? "Episode" : "Episodes"
-  }`;
+  const episodes = `${tv.number_of_episodes} ${tv.number_of_episodes === 1 ? "Episode" : "Episodes"
+    }`;
 
   const writers = credit?.crew?.filter(
     (person) =>
@@ -232,17 +258,20 @@ function TV() {
           </p>
 
           <div className="movie-buttons">
-            <Link
+            {/* <Link
               to={`/tv/${tv.id}`}
               className="watch-now-btn"
             >
               <Play size={16} fill="currentColor" />
               Watch Now
-            </Link>
+            </Link> */}
 
-            <button className="trailer-btn">
-              <Play size={15} fill="currentColor" />
-              Trailer
+            <button
+              className="watch-now-btn"
+              onClick={() => setIsTrailerOpen(true)}
+            >
+              <Play size={16} fill="currentColor" />
+              Watch Trailer
             </button>
 
             <button
@@ -336,16 +365,16 @@ function TV() {
                     <div>
                       {writers?.length
                         ? writers.map((writer, index) => (
-                            <span
-                              key={`${writer.id}-${index}`}
-                            >
-                              {writer.name}
-                              {index <
+                          <span
+                            key={`${writer.id}-${index}`}
+                          >
+                            {writer.name}
+                            {index <
                               writers.length - 1
-                                ? ", "
-                                : ""}
-                            </span>
-                          ))
+                              ? ", "
+                              : ""}
+                          </span>
+                        ))
                         : "N/A"}
                     </div>
                   </div>
@@ -360,10 +389,10 @@ function TV() {
                           <span key={person.id}>
                             {person.name}
                             {index <
-                            Math.min(
-                              credit.cast.length,
-                              5
-                            ) - 1
+                              Math.min(
+                                credit.cast.length,
+                                5
+                              ) - 1
                               ? ", "
                               : ""}
                           </span>
@@ -387,18 +416,18 @@ function TV() {
                     <div className="flex">
                       {tv.production_companies?.length
                         ? tv.production_companies.map(
-                            (company, index) => (
-                              <span key={company.id}>
-                                {company.name}
-                                {index <
+                          (company, index) => (
+                            <span key={company.id}>
+                              {company.name}
+                              {index <
                                 tv.production_companies
                                   .length -
-                                  1
-                                  ? ", "
-                                  : ""}
-                              </span>
-                            )
+                                1
+                                ? ", "
+                                : ""}
+                            </span>
                           )
+                        )
                         : "N/A"}
                     </div>
                   </div>
@@ -469,8 +498,8 @@ function TV() {
                     <p>
                       {tv.networks?.length
                         ? tv.networks
-                            .map((network) => network.name)
-                            .join(", ")
+                          .map((network) => network.name)
+                          .join(", ")
                         : "N/A"}
                     </p>
                   </div>
@@ -586,9 +615,18 @@ function TV() {
 
         {activeTab === "recommendation" && (
           <div className="tab-section">
-            <Recommendations TV={recommendations} />
+            <Recommendations
+  movies={recommendations}
+  tv
+/>
           </div>
         )}
+        <TrailerModal
+  isOpen={isTrailerOpen}
+  onClose={() => setIsTrailerOpen(false)}
+  title={tv.name}
+  trailer={trailer}
+/>
       </div>
     </section>
   );

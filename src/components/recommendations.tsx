@@ -1,12 +1,16 @@
-import type { MoviesListProps } from "@/types/movies.type";
+import type { MoviesListProps, TVListProps } from "@/types/movies.type";
 import { Link } from "react-router";
 import { getImageURL } from "@/lib/functions";
 
 interface RecommendationsProps {
-  movies: MoviesListProps[];
+  movies: (MoviesListProps | TVListProps)[];
+  tv?: boolean;
 }
 
-const Recommendations = ({ movies }: RecommendationsProps) => {
+const Recommendations = ({
+  movies,
+  tv = false,
+}: RecommendationsProps) => {
   return (
     <section className="recommendations">
       <div className="recommendations-header">
@@ -14,34 +18,43 @@ const Recommendations = ({ movies }: RecommendationsProps) => {
       </div>
 
       <div className="recommendations-grid">
-        {movies.map((movie) => (
-          <Link
-            key={movie.id}
-            to={`/movie/${movie.id}?tab=recommendation`}
-            className="recommendation-card"
-          >
-            <img
-              src={getImageURL(movie.poster_path ?? "", "xl")}
-              alt={movie.title}
-            />
+        {movies.map((movie) => {
+          const title = tv
+            ? (movie as TVListProps).name
+            : (movie as MoviesListProps).title;
 
-            <div className="recommendation-info">
-              <h3>{movie.title}</h3>
+          const releaseDate = tv
+            ? (movie as TVListProps).first_air_date
+            : (movie as MoviesListProps).release_date;
 
-              <div className="recommendation-rating">
-                ⭐ {movie.vote_average?.toFixed(1)}
+          return (
+            <Link
+              key={movie.id}
+              to={`/${tv ? "tv" : "movie"}/${movie.id}?tab=recommendation`}
+              className="recommendation-card"
+            >
+              <img
+                src={getImageURL(movie.poster_path ?? "", "xl")}
+                alt={title}
+              />
+
+              <div className="recommendation-info">
+                <h3>{title}</h3>
+
+                <div className="recommendation-rating">
+                  ⭐ {movie.vote_average?.toFixed(1)}
+                </div>
+
+                <span>
+                  {releaseDate?.slice(0, 4) || "N/A"}
+                </span>
               </div>
-
-              <span>
-                {movie.release_date?.slice(0, 4) || "N/A"}
-              </span>
-            </div>
-          </Link>
-        ))}
+            </Link>
+          );
+        })}
       </div>
     </section>
   );
 };
 
 export default Recommendations;
-

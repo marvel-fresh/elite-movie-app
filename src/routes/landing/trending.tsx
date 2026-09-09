@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+
 const TrendingMovies = () => {
   return (
     <div className="landing-page">

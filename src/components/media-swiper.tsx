@@ -1,6 +1,5 @@
 import { Link } from "react-router";
 
-import { getImageURL } from "@/lib/functions";
 import type { MoviesListProps } from "@/types/movies.type";
 import MovieCard from "./MovieCard";
 

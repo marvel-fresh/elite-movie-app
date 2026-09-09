@@ -333,6 +333,8 @@ body {
   border-radius: 12px;
   background: #17171d;
   text-decoration: none;
+  position: relative;
+  
 }
 
 .poster-wrapper img {

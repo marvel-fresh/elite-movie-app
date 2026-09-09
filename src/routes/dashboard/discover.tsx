@@ -1,13 +1,11 @@
 
 import { useEffect, useState } from "react";
-import { Link } from "react-router";
 import {
   discoverMovies,
   discoverTV,
 } from "@/data/movies";
 
 import type { MoviesListProps } from "@/types/movies.type";
-import { getImageURL } from "@/lib/functions";
 import MovieCard from "@/components/MovieCard";
 
 const Discover = () => {

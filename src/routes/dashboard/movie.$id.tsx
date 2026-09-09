@@ -1,42 +1,45 @@
 
 import { useEffect, useState } from "react";
-import { Link, useParams, useSearchParams } from "react-router";
+import { useParams, useSearchParams } from "react-router";
 import { getImageURL } from "@/lib/functions";
-import { getMovieById, getMovieCredits, getRecommendation, getSimilarMovies } from "@/data/movies";
-import type { MovieCredits, MovieDetailsProps, MoviesListProps,   } from "@/types/movies.type";
-import { Play, Languages, MapPin, Info, Star, MoreHorizontal } from "lucide-react";
+import { getMovieById, getMovieCredits, getMovieVideos, getRecommendation, getSimilarMovies } from "@/data/movies";
+import type { MovieCredits, MovieDetailsProps, MoviesListProps, Trailer } from "@/types/movies.type";
+import { Play, Languages, MapPin, Info, Star } from "lucide-react";
 import Credit from "@/components/credit";
 import Recommendations from "@/components/recommendations";
-import {Bookmark,BookmarkCheck,} from "lucide-react";
-import {addToWatchlist,removeFromWatchlist,isInWatchlist,} from "@/lib/watchlist";
+import { Bookmark, BookmarkCheck, } from "lucide-react";
+import { addToWatchlist, removeFromWatchlist, isInWatchlist, } from "@/lib/watchlist";
 import BackButton from "@/components/BackButton";
-type Tabs = 'overview' | 'details' | 'credit' | 'reviews' | 'recommendation';
+import TrailerModal from "@/components/TrailerModal";
+import { addToWatchHistory } from "@/lib/History";
+type Tabs = 'overview' | 'details' | 'credit' | 'reviews' | 'recommendation' | '';
 
 function Movie() {
- const { id } = useParams();
+  const { id } = useParams();
 
-const [recommendations, setRecommendations] = useState<MoviesListProps[]>([]);
-const [movie, setMovie] = useState<MovieDetailsProps | null>(null);
-const [credit, setCredit] = useState<MovieCredits | null>(null);
-const [similar, setSimilar] = useState<MoviesListProps[]>([]);
-void similar;
-   
-const [searchParams, setSearchParams] = useSearchParams();
+  const [recommendations, setRecommendations] = useState<MoviesListProps[]>([]);
+  const [movie, setMovie] = useState<MovieDetailsProps | null>(null);
+  const [credit, setCredit] = useState<MovieCredits | null>(null);
+  const [similar, setSimilar] = useState<MoviesListProps[]>([]);
+  void similar;
+const [trailer, setTrailer] = useState<Trailer | null>(null);
+const [isTrailerOpen, setIsTrailerOpen] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
 
-const activeTab = (searchParams.get("tab") as Tabs) || "overview";
-const [inWatchlist, setInWatchlist] =
-  useState(false);
+  const activeTab = (searchParams.get("tab") as Tabs) || "overview";
+  const [inWatchlist, setInWatchlist] =
+    useState(false);
 
-  type TabsType = { 
+  type TabsType = {
     text: string,
-     activeTab: Tabs 
-    }
+    activeTab: Tabs
+  }
   const tabs: TabsType[] = [
     { text: "Overview", activeTab: "overview" },
     { text: "Details", activeTab: "details" },
     { text: "Cast & Crew", activeTab: "credit" },
     { text: "Reviews", activeTab: "reviews" },
-    { text: "Recommendations", activeTab: "recommendation" }
+    { text: "Recommendations", activeTab: "recommendation" },
   ]
 
 
@@ -44,28 +47,37 @@ const [inWatchlist, setInWatchlist] =
 
 
 
-useEffect(() => {
-  if (movie) {
-    setInWatchlist(
-      isInWatchlist(movie.id)
-    );
-  }
-}, [movie]);
+  useEffect(() => {
+    if (movie) {
+      setInWatchlist(
+        isInWatchlist(movie.id)
+      );
+    }
+  }, [movie]);
 
   useEffect(() => {
     if (id) {
       const getData = async () => {
-        const [movieInfo, creditInfo, similarInfo,recommendationsInfo] = await Promise.all([
+        const [movieInfo, creditInfo, similarInfo, recommendationsInfo] = await Promise.all([
           getMovieById(id),
           getMovieCredits(id),
           getSimilarMovies(id),
-          getRecommendation (id)
+          getRecommendation(id)
         ])
 
         setMovie(movieInfo)
         setCredit(creditInfo)
         setSimilar(similarInfo)
         setRecommendations(recommendationsInfo)
+        getMovieVideos(Number(id)).then((videosInfo) => {
+          setTrailer(
+            videosInfo.results.find(
+              (video) => video.site === "YouTube" && video.type === "Trailer" && video.official
+            ) ?? videosInfo.results.find(
+              (video) => video.site === "YouTube" && video.type === "Trailer"
+            ) ?? null
+          )
+        }).catch(() => setTrailer(null))
       }
 
       getData()
@@ -75,15 +87,31 @@ useEffect(() => {
   const director = credit?.crew?.filter((person) => (person.job === "Director"))
   const writters = credit?.crew?.filter((person) => (person.job === "Writer"))
   const handleWatchlist = () => {
-  if (!movie) return;
+    if (!movie) return;
 
-  if (inWatchlist) {
-    removeFromWatchlist(movie.id);
-    setInWatchlist(false);
-  } else {
-    addToWatchlist(movie);
-    setInWatchlist(true);
-  }
+    if (inWatchlist) {
+      removeFromWatchlist(movie.id);
+      setInWatchlist(false);
+    } else {
+      addToWatchlist(movie);
+      setInWatchlist(true);
+    }
+  };
+  const handleWatchTrailer = () => {
+  if (!movie || !trailer) return;
+
+ addToWatchHistory({
+  id: movie.id,
+  title: movie.title,
+  poster_path: movie.poster_path,
+  release_date: movie.release_date,
+  vote_average: movie.vote_average,
+  mediaType: "movie",
+  watchedAt: Date.now(),
+  watchCount: 1,
+});
+
+  setIsTrailerOpen(true);
 };
 
   if (!movie) {
@@ -94,12 +122,12 @@ useEffect(() => {
     <section className="movie-page">
 
       <section className="hero" style={{ backgroundImage: `url(${getImageURL(movie?.backdrop_path, "xl")})` }}>
-  
+
         <div className="backdrop" />
-        
+
         <div className="hero-content">
 
-      <BackButton />
+          <BackButton />
 
           <div className="top-rated">
             <Star size={14} />
@@ -168,40 +196,33 @@ useEffect(() => {
           </p>
 
           <div className="movie-buttons">
-
-            <Link
-              to={`/movie/${movie?.id}`}
-              className="watch-now-btn"
-            >
-              <Play size={16} fill="currentColor" />
-              Watch Now
-            </Link>
-
-            <button className="trailer-btn">
-              <Play size={15} fill="currentColor" />
-              Trailer
-            </button>
-
-          <button
-  className="trailer-btn"
-  onClick={handleWatchlist}
+ <button
+  className="watch-now-btn"
+  onClick={handleWatchTrailer}
 >
-  {inWatchlist ? (
-    <>
-      <BookmarkCheck size={18} />
-      Added to Watchlist
-    </>
-  ) : (
-    <>
-      <Bookmark size={18} />
-      Add to Watchlist
-    </>  
-  )}
+  <Play size={16} fill="currentColor" />
+  Watch Trailer
 </button>
 
-            <button className="more-btn">
-              <MoreHorizontal size={20} />
+
+            <button
+              className="trailer-btn"
+              onClick={handleWatchlist}
+            >
+              {inWatchlist ? (
+                <>
+                  <BookmarkCheck size={18} />
+                  Added to Watchlist
+                </>
+              ) : (
+                <>
+                  <Bookmark size={18} />
+                  Add to Watchlist
+                </>
+              )}
             </button>
+
+
 
           </div>
 
@@ -404,13 +425,15 @@ useEffect(() => {
           </>
         )}
 
-        {activeTab === "credit" && (
-          <Credit
-            cast={credit?.cast || []}
-            crew={credit?.crew || []}
-            movieId={movie.id}
-          />
-        )}
+       {activeTab === "credit" && (
+  <Credit
+    cast={credit?.cast || []}
+    crew={credit?.crew || []}
+    movieId={movie.id}
+    showAll
+  />
+)}
+     
 
         {activeTab === "details" && (
           <div className="tab-section">
@@ -426,12 +449,21 @@ useEffect(() => {
           </div>
         )}
 
-  {activeTab === "recommendation" && (
-  <div className="tab-section">
-    <Recommendations movies={recommendations} />
-  </div>
-)}
+        {activeTab === "recommendation" && (
+          <div className="tab-section">
+            <Recommendations movies={recommendations} />
+          </div>
+        )}
 
+       
+         
+      
+<TrailerModal
+  isOpen={isTrailerOpen}
+  onClose={() => setIsTrailerOpen(false)}
+  title={movie.title}
+  trailer={trailer}
+/>
       </div>
 
 

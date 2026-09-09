@@ -1,15 +1,24 @@
-import type { Cast, Crew } from "@/types/movies.type";
+import type { Cast, Crew, TVCast, TVCrew } from "@/types/movies.type";
 import { getImageURL } from "@/lib/functions";
 import { ChevronRight } from "lucide-react";
 import { Link } from "react-router";
 
 interface CreditProps {
-  cast: Cast[];
-  crew: Crew[];
+  cast: (Cast | TVCast)[];
+  crew: (Crew | TVCrew)[];
   movieId: number;
+  showAll?: boolean;
 }
 
-function Credit({ cast, crew, movieId }: CreditProps) {
+function Credit({
+  cast,
+  crew,
+  movieId,
+  showAll = false,
+}: CreditProps) {
+  const displayedCast = showAll ? cast : cast.slice(0, 12);
+  const displayedCrew = showAll ? crew : crew.slice(0, 12);
+
   return (
     <section className="cast-section">
       <div className="cast-header">
@@ -24,9 +33,8 @@ function Credit({ cast, crew, movieId }: CreditProps) {
         </Link>
       </div>
 
- 
       <div className="cast-list">
-        {cast?.slice(0, 12).map((actor) => (
+        {displayedCast.map((actor) => (
           <Link
             to={`/person/${actor.id}`}
             className="cast-card"
@@ -53,9 +61,8 @@ function Credit({ cast, crew, movieId }: CreditProps) {
         ))}
       </div>
 
-   
       <div className="cast-list">
-        {crew?.slice(0, 12).map((member) => (
+        {displayedCrew.map((member) => (
           <Link
             to={`/person/${member.id}`}
             className="cast-card"

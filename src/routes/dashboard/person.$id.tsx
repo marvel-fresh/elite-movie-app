@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams, useSearchParams, } from "react-router";
-import { ArrowLeft, Calendar, Film, MapPin, Star, ExternalLink, LinkIcon, Globe, ChevronRight } from "lucide-react";
+import { Calendar, Film, MapPin, Star, ExternalLink, LinkIcon, Globe } from "lucide-react";
 import { getImageURL } from "@/lib/functions";
 import { getActorSocial, getPersonById, getPersonGallery, getPersonMovieCredits, getPersonTvCredits, } from "@/data/movies";
 import type { PersonDetailsProps } from "@/types/movies.type";

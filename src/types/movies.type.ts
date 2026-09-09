@@ -485,3 +485,32 @@ export interface TVRecommendationsResponse {
 
   total_results: number;
 }
+
+export interface Trailer {
+      "key": string,
+      "site": string,
+      "size": number,
+      "type": string,
+      "official": boolean,
+      "published_at": string,
+      "id": string,
+      "name": string,
+      "iso_639_1": string,
+      "iso_3166_1": string
+}
+
+export interface TrailerResponse {
+  id: number;
+  results: Trailer[];
+}
+
+export interface WatchHistoryItem {
+  id: number;
+  title: string;
+  poster_path: string | null;
+  release_date: string;
+  vote_average: number;
+  mediaType: "movie" | "tv";
+  watchedAt: number;
+  watchCount: number;
+}

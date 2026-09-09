@@ -1,29 +1,6 @@
-import { useState } from "react";
-import {Bell,Moon,User,Shield,Play,ChevronRight,} from "lucide-react";
-
-
+import { ChevronRight, Shield, User } from "lucide-react";
 
 const Settings = () => {
-    
-//   const [notifications, setNotifications] = useState(true);
-//   const [autoplay, setAutoplay] = useState(true);
-const [darkMode, setDarkMode] = useState(() => {
-  const saved = localStorage.getItem("darkMode");
-
-  return saved
-    ? JSON.parse(saved)
-    : true;
-});
-const toggleDarkMode = () => {
-  const newValue = !darkMode;
-
-  setDarkMode(newValue);
-
-  localStorage.setItem(
-    "darkMode",
-    JSON.stringify(newValue)
-  );
-};
   return (
     <main className="settings-page">
       <div className="settings-container">

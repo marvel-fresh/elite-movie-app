@@ -1,12 +1,10 @@
 import {
   Home,
   TrendingUp,
-  TvIcon,
   HistoryIcon,
   Settings,
   type LucideIcon,
   Flame,
-  Clapperboard,
   Bookmark,
   Disc3Icon,
 } from "lucide-react";
@@ -41,6 +39,9 @@ function DashboardSidebar({
   isOpen,
   closeSidebar,
 }: DashboardSidebarProps) {
+  void logOut;
+  void closeSidebar;
+
   return (
     <nav
       className={`sidebar-nav ${

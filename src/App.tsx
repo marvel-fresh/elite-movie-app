@@ -15,10 +15,12 @@ import SearchPage from './layout/searchpage'
 import Settings from './routes/dashboard/settings'
 import Watchlist from './routes/dashboard/watchlist'
 import Discover from "./routes/dashboard/discover";
+import History from "@/layout/History";
 <Route
   path="/settings"
   element={<Settings />}
 />
+
 // import PersonDetails from './routes/dashboard/personDetails'
 function App() {
 
@@ -38,6 +40,7 @@ function App() {
           <Route path="/movie/:id" element={<Movie />} />
           <Route path="/person/:id" element={<Person />} />
           <Route path="/tv/:id" element={<TV />} />
+          <Route path="/history" element={<History />} />
         </Route>
         
 

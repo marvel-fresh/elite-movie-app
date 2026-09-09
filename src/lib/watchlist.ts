@@ -1,13 +1,15 @@
 import type {
   MoviesListProps,
   MovieDetailsProps,
+  TVDetailsProps,
 } from "@/types/movies.type";
 
 const WATCHLIST_KEY = "watchlist";
 
 export type WatchlistMovie =
   | MoviesListProps
-  | MovieDetailsProps;
+  | MovieDetailsProps
+  | TVDetailsProps;
 
 export const getWatchlist = (): WatchlistMovie[] => {
   const saved = localStorage.getItem(WATCHLIST_KEY);

@@ -9,6 +9,8 @@ const LoadingScreen = ({ label = "Loading" }: LoadingScreenProps) => {
         className="loading-logo"
         src="/logo.png"
         alt="Elite Movie"
+        loading="eager"
+        decoding="sync"
       />
 
       <div className="loading-indicator" aria-hidden="true">

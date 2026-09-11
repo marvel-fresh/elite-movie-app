@@ -31,7 +31,7 @@ function App() {
   useEffect(() => {
     const splashTimer = window.setTimeout(() => {
       setIsStarting(false);
-    }, 1200);
+    }, 1800);
 
     return () => window.clearTimeout(splashTimer);
   }, []);

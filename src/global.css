@@ -138,6 +138,177 @@ body {
   justify-content: center;
 }
 
+.sidebar-close {
+  display: none;
+  align-self: flex-end;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin: -12px 4px 8px 0;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-color);
+  cursor: pointer;
+}
+
+.sidebar-close:hover,
+.sidebar-close:focus-visible {
+  background: rgb(from var(--brand-primary) r g b / 12%);
+  color: var(--brand-primary);
+}
+
+.sidebar-overlay {
+  position: fixed;
+  inset: var(--header-height) 0 0;
+  z-index: 998;
+  background: rgb(0 0 0 / 68%);
+}
+
+.dashboard-header {
+  min-height: var(--header-height);
+  box-sizing: border-box;
+}
+
+.dashboard-header .hamburger {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --mobile-sidebar-width: min(82vw, 300px);
+  }
+
+  body {
+    overflow-x: hidden;
+  }
+
+  .sidebar {
+    flex: 0 0 0;
+    width: 0;
+  }
+
+  .sidebar-nav {
+    width: var(--mobile-sidebar-width);
+    padding: 24px 16px;
+    gap: 10px;
+    background: var(--background-color);
+    box-shadow: 12px 0 30px rgb(0 0 0 / 35%);
+    transform: translateX(-105%);
+    transition: transform 180ms ease-out;
+  }
+
+  .sidebar-nav.sidebar-open {
+    transform: translateX(0);
+  }
+
+  .sidebar-close {
+    display: flex;
+  }
+
+  .sidebar-btn {
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 14px;
+    min-height: 44px;
+    padding: 8px 12px;
+    border-radius: 8px;
+  }
+
+  .sidebar-btn span {
+    font-size: 14px;
+  }
+
+  .sidebar-btn.active-link .active-bar {
+    left: -16px;
+    height: 60%;
+  }
+
+  .dashboard-header {
+    gap: 8px;
+    padding: 10px 12px;
+  }
+
+  .dashboard-header .hamburger {
+    display: flex;
+    flex: 0 0 40px;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+  }
+
+  .app-name {
+    margin: 0 auto 0 0;
+    font-size: 18px;
+  }
+
+  .header-search {
+    order: 3;
+    flex: 1 1 100%;
+    width: auto;
+    min-width: 0;
+    margin: 0;
+  }
+
+  .notification-btn {
+    margin-left: 0;
+  }
+
+  .dashboard-header {
+    flex-wrap: wrap;
+  }
+
+  .content {
+    min-width: 0;
+  }
+}
+
+@media (max-width: 420px) {
+  .dashboard-header {
+    padding-inline: 8px;
+  }
+
+  .app-name {
+    font-size: 16px;
+  }
+
+  .notification-btn {
+    padding: 6px;
+  }
+}
+
+@media (max-width: 768px) {
+  .search-page {
+    padding: 104px 18px 40px;
+  }
+
+  .search-page h1 {
+    font-size: 24px;
+    line-height: 1.25;
+  }
+
+  .search-results-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px 14px;
+  }
+
+  .search-card img {
+    height: auto;
+    aspect-ratio: 2 / 3;
+  }
+}
+
+@media (max-width: 420px) {
+  .search-page {
+    padding-inline: 12px;
+  }
+
+  .search-results-grid {
+    gap: 24px 10px;
+  }
+}
+
 
 
 .hamburger:hover {

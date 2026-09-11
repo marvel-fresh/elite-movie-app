@@ -7,6 +7,7 @@ import {
   Flame,
   Bookmark,
   Disc3Icon,
+  X,
 } from "lucide-react";
 
 import { NavLink } from "react-router";
@@ -40,23 +41,23 @@ function DashboardSidebar({
   closeSidebar,
 }: DashboardSidebarProps) {
   void logOut;
-  void closeSidebar;
 
   return (
     <nav
+      id="dashboard-sidebar"
+      aria-label="Main navigation"
       className={`sidebar-nav ${
         isOpen ? "sidebar-open" : ""
       }`}
     >
 
-      
-      {/* <button
+      <button
         className="sidebar-close"
         onClick={closeSidebar}
         aria-label="Close menu"
       >
         <X size={24} />
-      </button> */}
+      </button>
 
       {sidebarLinks.map(({ icon: Icon, label, to }) => (
         <NavLink

@@ -3954,3 +3954,107 @@ color: #aaa;
   font-weight: 400;
   opacity: 0.55;
 }
+
+@media (max-width: 768px) {
+  .hero {
+    min-height: 560px;
+  }
+
+  .hero-content {
+    width: auto;
+    max-width: none;
+    padding: 48px 24px;
+  }
+
+  .hero-content h1 {
+    font-size: clamp(30px, 9vw, 44px);
+    line-height: 1.08;
+  }
+
+  .movie-tabs {
+    gap: 18px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .movie-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .overview-section {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .overview-poster {
+    width: min(180px, 55vw);
+    height: auto;
+    aspect-ratio: 0.65;
+    margin: 0 auto;
+    padding: 0;
+  }
+
+  .overview-main {
+    padding: 20px;
+  }
+
+  .overview-sidebar {
+    margin: 0;
+  }
+
+  .detail-row {
+    grid-template-columns: minmax(100px, 0.4fr) minmax(0, 1fr);
+  }
+
+  .movie-buttons,
+  .hero-buttons {
+    flex-wrap: wrap;
+  }
+
+  .person-hero {
+    min-width: 0;
+  }
+
+  .person-tabs,
+  .filmography-tabs,
+  .media-tabs {
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .person-tabs::-webkit-scrollbar,
+  .filmography-tabs::-webkit-scrollbar,
+  .media-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .registration-page {
+    min-height: 100vh;
+    padding: 24px 14px;
+    box-sizing: border-box;
+  }
+
+  .form-data {
+    box-sizing: border-box;
+    padding: 20px 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-content {
+    padding-inline: 16px;
+  }
+
+  .overview-main {
+    padding: 16px 4px;
+  }
+
+  .detail-row {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .history-page {
+    padding-top: 88px;
+  }
+}

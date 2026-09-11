@@ -14,6 +14,7 @@ import Person from './routes/dashboard/person.$id';
 import SearchPage from './layout/searchpage'
 import Settings from './routes/dashboard/settings'
 import Watchlist from './routes/dashboard/watchlist'
+import Upcoming from './routes/dashboard/upcoming'
 import Discover from "./routes/dashboard/discover";
 import History from "@/layout/History";
 <Route
@@ -35,6 +36,7 @@ function App() {
           <Route path="/search" element={<SearchPage />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/watchlists" element={<Watchlist />} />
+          <Route path="/upcoming" element={<Upcoming />} />
           <Route path="/movie/:id" element={<Movie />} />
           <Route path="/discover" element={<Discover />} />
           <Route path="/movie/:id" element={<Movie />} />

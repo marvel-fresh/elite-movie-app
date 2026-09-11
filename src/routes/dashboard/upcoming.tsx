@@ -1,43 +1,47 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
 
-// removed unused import: getImageURL
 import { getUpcoming } from "@/data/movies";
-import NowPlayingHero from "@/components/swiper";
 
 import type { MoviesListProps } from "@/types/movies.type";
 
 const UpcomingPage = () => {
-  const [nowPlaying, setNowPlaying] = useState<MoviesListProps[]>([]);
   const [movies, setMovies] = useState<MoviesListProps[]>([]);
-
-  useEffect(() => {
-    const getData = async () => {
-      const upComing = await Promise.all([getUpcoming()]);
-      setNowPlaying(upComing[0]);
-    };
-    getData();
-  }, []);
-
+  const [isLoading, setIsLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchUpcoming = async () => {
-      const upComing = await Promise.all([getUpcoming()]);
-      setMovies(upComing[0]);
+      try {
+        const upcomingMovies = await getUpcoming();
+        setMovies(Array.isArray(upcomingMovies) ? upcomingMovies : []);
+      } catch (error) {
+        console.error("Failed to load upcoming movies:", error);
+        setErrorMessage("Upcoming movies are unavailable right now.");
+      } finally {
+        setIsLoading(false);
+      }
     };
 
     fetchUpcoming();
   }, []);
 
-  if (!movies.length) {
+  if (isLoading) {
     return <p>Loading movies...</p>;
+  }
+
+  if (errorMessage) {
+    return <p>{errorMessage}</p>;
+  }
+
+  if (!movies.length) {
+    return <p>No upcoming movies found.</p>;
   }
 
   const heroMovie = movies[0];
 
   return (
     <>
-    <NowPlayingHero nowPlaying={nowPlaying}/>
       <section
         className="upcoming-hero"
         style={{
@@ -53,7 +57,7 @@ const UpcomingPage = () => {
             </p>
 
             <div className="hero-buttons">
-              <Link to={`/upcoming/${heroMovie.id}`}>
+              <Link to={`/movie/${heroMovie.id}`}>
                 <button className="hero-btn">
                   Details
                 </button>
@@ -80,7 +84,7 @@ const UpcomingPage = () => {
 
                 <p>{movie.release_date}</p>
 
-                <Link to={`/upcoming/${movie.id}`}>
+                <Link to={`/movie/${movie.id}`}>
                   <button className="hero-btn">
                     Details
                   </button>

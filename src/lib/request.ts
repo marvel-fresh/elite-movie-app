@@ -1,13 +1,4 @@
-const configuredApiUrl = import.meta.env.VITE_API_BASE_URL as string;
-const API_KEY = import.meta.env.VITE_API_KEY as string;
-
-if (!configuredApiUrl || !API_KEY) {
-  throw new Error(
-    "Missing VITE_API_BASE_URL or VITE_API_KEY. Configure them in the deployment environment."
-  );
-}
-
-const API_URL = configuredApiUrl.replace(/\/+$/, "");
+const API_URL = "/api";
 const getApiUrl = (endpoint: string) =>
   `${API_URL}/${endpoint.replace(/^\/+/, "")}`;
 
@@ -19,7 +10,6 @@ export const getReq = async <T>(
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${API_KEY}`,
     },
   });
 
@@ -41,7 +31,6 @@ export const postReq = async <T>(
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${API_KEY}`,
     },
     body: JSON.stringify(payload),
   });
@@ -64,7 +53,6 @@ export const updateReq = async <T>(
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${API_KEY}`,
     },
     body: JSON.stringify(payload),
   });
@@ -84,9 +72,6 @@ export const deleteReq = async <T>(
   const url = getApiUrl(endpoint);
   const data = await fetch(url, {
     method: "DELETE",
-    headers: {
-      "Authorization": `Bearer ${API_KEY}`,
-    },
   });
 
   if (!data.ok) {

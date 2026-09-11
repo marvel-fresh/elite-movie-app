@@ -1,6 +1,6 @@
 import { getReq } from "@/lib/request";
 import type { ActorsCredits, PersonGallery, PersonSocails } from "@/types/cast.type";
-import type { MovieCredits, MovieDetailsProps, MoviesListProps, PersonDetailsProps, PersonSearchResponse, SimilarTVResponse, TrailerResponse, TVCredits, TVDetailsProps, TVListProps, TVRecommendationsResponse, TVResponse, } from "@/types/movies.type";
+import type { MovieCredits, MovieDetailsProps, MoviesListProps, PersonDetailsProps, PersonSearchResponse, ReviewsResponse, SimilarTVResponse, TrailerResponse, TVCredits, TVDetailsProps, TVListProps, TVRecommendationsResponse, TVResponse, } from "@/types/movies.type";
 
 export const getTopRated = () => {
   const data = getReq('/movie/top_rated')
@@ -84,6 +84,14 @@ export const getMovieById = async (movieId: string) => {
   const data = await getReq(`/movie/${movieId}`)
   return data as unknown as MovieDetailsProps;
 }
+
+export const getMovieReviews = async (movieId: string) => {
+  return getReq<ReviewsResponse>(`/movie/${movieId}/reviews`);
+};
+
+export const getTVReviews = async (tvId: string) => {
+  return getReq<ReviewsResponse>(`/tv/${tvId}/reviews`);
+};
 
 export const getPersonById = async (person_id: string) => {
   return await getReq(`/person/${person_id}`) as unknown as PersonDetailsProps;

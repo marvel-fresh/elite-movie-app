@@ -8,6 +8,7 @@ interface CreditProps {
   crew: (Crew | TVCrew)[];
   movieId: number;
   showAll?: boolean;
+  mediaType?: "movie" | "tv";
 }
 
 function Credit({
@@ -15,6 +16,7 @@ function Credit({
   crew,
   movieId,
   showAll = false,
+  mediaType = "movie",
 }: CreditProps) {
   const displayedCast = showAll ? cast : cast.slice(0, 12);
   const displayedCrew = showAll ? crew : crew.slice(0, 12);
@@ -26,7 +28,7 @@ function Credit({
 
         <Link
           className="view-all-btn"
-          to={`/movie/${movieId}?tab=credit`}
+          to={`/${mediaType}/${movieId}?tab=credit`}
         >
           View All
           <ChevronRight size={16} />

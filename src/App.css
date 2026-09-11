@@ -1034,6 +1034,87 @@ div.movie-tabs-title {
   margin-top: 30px;
 }
 
+.tab-section {
+  width: min(100% - 40px, 1180px);
+  margin: 0 auto;
+  padding: 30px 0 60px;
+  color: #fff;
+}
+
+.tab-section h2 {
+  margin: 0 0 24px;
+  font-size: clamp(22px, 4vw, 30px);
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.details-grid > div {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid rgb(255 255 255 / 9%);
+  border-radius: 10px;
+  background: #15171b;
+}
+
+.details-grid span {
+  color: #888;
+  font-size: 12px;
+}
+
+.details-grid strong {
+  color: #eee;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+.review-card {
+  margin-bottom: 14px;
+  padding: 18px;
+  border: 1px solid rgb(255 255 255 / 9%);
+  border-radius: 10px;
+  background: #15171b;
+}
+
+.review-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.review-card-header strong {
+  color: #fff;
+}
+
+.review-card-header span {
+  flex: 0 0 auto;
+  color: #f5c518;
+  font-size: 13px;
+}
+
+.review-card p {
+  max-height: 180px;
+  overflow: hidden;
+  margin: 0;
+  color: #b8b8b8;
+  font-size: 14px;
+  line-height: 1.7;
+  white-space: pre-line;
+}
+
+.tab-empty {
+  margin: 0;
+  color: #929292;
+}
+
 .cast-header {
   display: flex;
   align-items: center;
@@ -3047,6 +3128,26 @@ div.movie-tabs-title {
   .filmography-tabs button {
     padding: 7px 11px;
     font-size: 12px;
+  }
+
+  .tab-section {
+    width: calc(100% - 32px);
+    padding: 24px 0 44px;
+  }
+
+  .details-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .details-grid > div,
+  .review-card {
+    padding: 14px;
+  }
+
+  .review-card p {
+    font-size: 13px;
+    line-height: 1.6;
   }
 }
 @media (max-width: 768px) {

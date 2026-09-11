@@ -2,8 +2,8 @@
 import { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "react-router";
 import { getImageURL } from "@/lib/functions";
-import { getMovieById, getMovieCredits, getMovieVideos, getRecommendation, getSimilarMovies } from "@/data/movies";
-import type { MovieCredits, MovieDetailsProps, MoviesListProps, Trailer } from "@/types/movies.type";
+import { getMovieById, getMovieCredits, getMovieReviews, getMovieVideos, getRecommendation, getSimilarMovies } from "@/data/movies";
+import type { MovieCredits, MovieDetailsProps, MoviesListProps, Review, Trailer } from "@/types/movies.type";
 import { Play, Languages, MapPin, Info, Star } from "lucide-react";
 import Credit from "@/components/credit";
 import Recommendations from "@/components/recommendations";
@@ -20,6 +20,7 @@ function Movie() {
   const [recommendations, setRecommendations] = useState<MoviesListProps[]>([]);
   const [movie, setMovie] = useState<MovieDetailsProps | null>(null);
   const [credit, setCredit] = useState<MovieCredits | null>(null);
+  const [reviews, setReviews] = useState<Review[]>([]);
   const [similar, setSimilar] = useState<MoviesListProps[]>([]);
   void similar;
 const [trailer, setTrailer] = useState<Trailer | null>(null);
@@ -69,6 +70,9 @@ const [isTrailerOpen, setIsTrailerOpen] = useState(false);
         setCredit(creditInfo)
         setSimilar(similarInfo)
         setRecommendations(recommendationsInfo)
+        getMovieReviews(id)
+          .then((reviewsInfo) => setReviews(reviewsInfo.results || []))
+          .catch(() => setReviews([]));
         getMovieVideos(Number(id)).then((videosInfo) => {
           setTrailer(
             videosInfo.results.find(
@@ -438,14 +442,31 @@ const [isTrailerOpen, setIsTrailerOpen] = useState(false);
         {activeTab === "details" && (
           <div className="tab-section">
             <h2>Details</h2>
-
+            <div className="details-grid">
+              <div><span>Original Title</span><strong>{movie.original_title || "N/A"}</strong></div>
+              <div><span>Status</span><strong>{movie.status || "N/A"}</strong></div>
+              <div><span>Runtime</span><strong>{movie.runtime ? `${movie.runtime} minutes` : "N/A"}</strong></div>
+              <div><span>Original Language</span><strong>{movie.original_language?.toUpperCase() || "N/A"}</strong></div>
+              <div><span>Genres</span><strong>{movie.genres?.map((genre) => genre.name).join(", ") || "N/A"}</strong></div>
+              <div><span>Production Countries</span><strong>{movie.production_countries?.map((country) => country.name).join(", ") || "N/A"}</strong></div>
+              <div><span>Budget</span><strong>${movie.budget?.toLocaleString() || "N/A"}</strong></div>
+              <div><span>Revenue</span><strong>${movie.revenue?.toLocaleString() || "N/A"}</strong></div>
+            </div>
           </div>
         )}
 
         {activeTab === "reviews" && (
           <div className="tab-section">
             <h2>Reviews</h2>
-
+            {reviews.length ? reviews.slice(0, 6).map((review) => (
+              <article className="review-card" key={review.id}>
+                <div className="review-card-header">
+                  <strong>{review.author_details?.name || review.author}</strong>
+                  {review.author_details?.rating ? <span>{review.author_details.rating}/10</span> : null}
+                </div>
+                <p>{review.content}</p>
+              </article>
+            )) : <p className="tab-empty">No reviews available yet.</p>}
           </div>
         )}
 

@@ -16,6 +16,7 @@ import TrailerModal from "@/components/TrailerModal";
 import {
   getTVById,
   getTVCredits,
+  getTVReviews,
   getTVRecommendations,
   getTVVideos
 } from "@/data/movies";
@@ -24,6 +25,7 @@ import type {
   TVDetailsProps,
   TVCredits,
   TVListProps,
+  Review,
   Trailer,
 } from "@/types/movies.type";
 
@@ -50,6 +52,7 @@ function TV() {
   const [tv, setTV] = useState<TVDetailsProps | null>(null);
   const [credit, setCredit] = useState<TVCredits | null>(null);
   const [recommendations, setRecommendations] = useState<TVListProps[]>([]);
+  const [reviews, setReviews] = useState<Review[]>([]);
   const [inWatchlist, setInWatchlist] = useState(false);
   const [trailer, setTrailer] = useState<Trailer | null>(null);
   const [isTrailerOpen, setIsTrailerOpen] = useState(false);
@@ -97,6 +100,9 @@ useEffect(() => {
       setTV(tvInfo);
       setCredit(creditInfo);
       setRecommendations(recommendationsInfo);
+      getTVReviews(id)
+        .then((reviewsInfo) => setReviews(reviewsInfo.results || []))
+        .catch(() => setReviews([]));
 
       const videosInfo = await getTVVideos(id);
 
@@ -521,6 +527,7 @@ useEffect(() => {
               cast={credit?.cast || []}
               crew={[]}
               movieId={tv.id}
+              mediaType="tv"
             />
           </>
         )}
@@ -530,6 +537,7 @@ useEffect(() => {
             cast={credit?.cast || []}
             crew={credit?.crew || []}
             movieId={tv.id}
+            mediaType="tv"
           />
         )}
 
@@ -609,7 +617,15 @@ useEffect(() => {
         {activeTab === "reviews" && (
           <div className="tab-section">
             <h2>Reviews</h2>
-            <p>No reviews available yet.</p>
+            {reviews.length ? reviews.slice(0, 6).map((review) => (
+              <article className="review-card" key={review.id}>
+                <div className="review-card-header">
+                  <strong>{review.author_details?.name || review.author}</strong>
+                  {review.author_details?.rating ? <span>{review.author_details.rating}/10</span> : null}
+                </div>
+                <p>{review.content}</p>
+              </article>
+            )) : <p className="tab-empty">No reviews available yet.</p>}
           </div>
         )}
 

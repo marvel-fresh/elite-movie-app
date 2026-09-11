@@ -289,6 +289,29 @@
   transition: 0.2s ease;
 }
 
+.detail-back-btn {
+  position: fixed;
+  top: calc(var(--header-height) + 16px);
+  left: calc(var(--sidebar-width) + 20px);
+  z-index: 1001;
+  border: 1px solid rgb(255 255 255 / 22%);
+  background: rgb(0 0 0 / 78%);
+  box-shadow: 0 4px 16px rgb(0 0 0 / 35%);
+  backdrop-filter: blur(8px);
+}
+
+@media (max-width: 768px) {
+  .detail-back-btn {
+    top: calc(var(--header-height) + 10px);
+    left: 12px;
+    padding: 8px 12px;
+  }
+
+  .movie-page .hero-content {
+    padding-top: 88px;
+  }
+}
+
 .back-btn:hover {
   background: #1f2228;
 }

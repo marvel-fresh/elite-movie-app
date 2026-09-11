@@ -5,8 +5,10 @@ const BackButton = () => {
 
   return (
     <button
-      className="nav-1"
+      type="button"
+      className="back-btn detail-back-btn"
       onClick={() => navigate(-1)}
+      aria-label="Go back"
     >
       ← Back
     </button>

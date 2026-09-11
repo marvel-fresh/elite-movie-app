@@ -577,7 +577,8 @@
 }
 
 .upcoming-hero {
-  height: 90vh;
+  min-height: 680px;
+  height: min(90vh, 820px);
   background-size: cover;
   background-position: center;
   position: relative;
@@ -589,6 +590,17 @@
 
   display: flex;
   align-items: flex-end;
+}
+
+.upcoming-hero .hero-content {
+  width: min(55%, 720px);
+  padding: 60px;
+}
+
+.upcoming-hero .hero-content h1 {
+  max-width: 720px;
+  font-size: clamp(34px, 5vw, 64px);
+  line-height: 1.05;
 }
 
 
@@ -614,20 +626,50 @@
 }
 
 .upcoming-section {
-  padding: 60px;
+  padding: 56px clamp(20px, 5vw, 60px) 72px;
   background: #111;
   color: white;
 }
 
 .upcoming-section h2 {
+  font-size: clamp(24px, 3vw, 32px);
   margin-bottom: 30px;
 }
 
-/* .movies-grid {
+.upcoming-section .movies-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill);
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   gap: 25px;
-} */
+}
+
+.upcoming-section .movie-card {
+  min-width: 0;
+  overflow: hidden;
+  background: #181818;
+}
+
+.upcoming-section .movie-card img {
+  height: auto;
+  aspect-ratio: 2 / 3;
+}
+
+.upcoming-section .movie-info {
+  padding: 16px;
+}
+
+.upcoming-section .movie-info h3 {
+  font-size: 17px;
+}
+
+.upcoming-status {
+  min-height: 50vh;
+  display: grid;
+  place-items: center;
+  padding: 120px 20px 40px;
+  box-sizing: border-box;
+  color: var(--text-color);
+  text-align: center;
+}
 
 
 
@@ -2817,6 +2859,173 @@ div.movie-tabs-title {
   }
 }
 
+@media (max-width: 768px) {
+  .upcoming-hero {
+    min-height: 520px;
+    height: min(72svh, 620px);
+  }
+
+  .upcoming-hero .hero-overlay {
+    align-items: flex-end;
+  }
+
+  .upcoming-hero .hero-content {
+    width: 100%;
+    padding: 36px 20px 30px;
+    box-sizing: border-box;
+  }
+
+  .upcoming-hero .hero-content h1 {
+    font-size: clamp(30px, 8vw, 44px);
+  }
+
+  .upcoming-section {
+    padding: 34px 16px 48px;
+  }
+
+  .upcoming-section .movies-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .upcoming-section .movie-info {
+    padding: 12px;
+  }
+
+  .upcoming-section .movie-info h3 {
+    font-size: 15px;
+  }
+
+  .upcoming-section .movie-info p {
+    margin-bottom: 10px;
+    font-size: 12px;
+  }
+
+  .upcoming-section .hero-btn {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 420px) {
+  .upcoming-section {
+    padding-inline: 12px;
+  }
+
+  .upcoming-section .movies-grid {
+    gap: 10px;
+  }
+
+  .upcoming-section .movie-info {
+    padding: 10px;
+  }
+
+  .upcoming-section .movie-info h3 {
+    font-size: 14px;
+  }
+}
+
+/* Keep long tab rows usable without squeezing their labels on phones. */
+.movie-tabs,
+.person-tabs {
+  overflow-x: auto;
+  scrollbar-width: none;
+  white-space: nowrap;
+}
+
+.movie-tabs::-webkit-scrollbar,
+.person-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.movie-tabs button,
+.person-tabs button {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+.filmography-title {
+  flex-wrap: wrap;
+}
+
+.filmography-tabs,
+.media-tabs {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.filmography-tabs {
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.filmography-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.media-tabs {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: 0 0 auto;
+}
+
+.media-tabs button {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .movie-tabs,
+  .person-tabs {
+    width: 100%;
+    gap: 24px;
+    padding-inline: 4px;
+    box-sizing: border-box;
+  }
+
+  .movie-tabs button {
+    padding: 14px 0;
+    font-size: 14px;
+  }
+
+  .person-tabs {
+    margin: 28px 0 24px;
+    gap: 22px;
+  }
+
+  .person-tabs button {
+    padding-bottom: 12px;
+    font-size: 14px;
+  }
+
+  .filmography-title {
+    align-items: flex-start;
+    gap: 12px;
+    padding: 18px;
+  }
+
+  .filmography-tabs {
+    width: 100%;
+  }
+}
+
+@media (max-width: 420px) {
+  .movie-tabs,
+  .person-tabs {
+    gap: 18px;
+  }
+
+  .movie-tabs button,
+  .person-tabs button {
+    font-size: 13px;
+  }
+
+  .filmography-tabs button {
+    padding: 7px 11px;
+    font-size: 12px;
+  }
+}
 @media (max-width: 768px) {
   .popular-section {
     padding: 30px 0;

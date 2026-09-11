@@ -363,13 +363,22 @@ body {
 }
 .search-tabs {
   display: flex;
+  align-items: center;
   gap: 10px;
   margin: 25px 0;
   border-bottom: 1px solid #2a2d33;
   padding-bottom: 10px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  white-space: nowrap;
+}
+
+.search-tabs::-webkit-scrollbar {
+  display: none;
 }
 
 .search-tabs button {
+  flex: 0 0 auto;
   background: transparent;
   border: none;
   color: #9b9da3;
@@ -379,6 +388,19 @@ body {
   cursor: pointer;
   border-radius: 6px;
   transition: 0.2s ease;
+}
+
+@media (max-width: 480px) {
+  .search-tabs {
+    gap: 6px;
+    margin: 20px 0;
+    padding-bottom: 8px;
+  }
+
+  .search-tabs button {
+    padding: 9px 13px;
+    font-size: 14px;
+  }
 }
 
 .search-tabs button:hover {

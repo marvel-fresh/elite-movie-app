@@ -17,6 +17,8 @@ import Watchlist from './routes/dashboard/watchlist'
 import Upcoming from './routes/dashboard/upcoming'
 import Discover from "./routes/dashboard/discover";
 import History from "@/layout/History";
+import LoadingScreen from "./components/LoadingScreen";
+import { useEffect, useState } from "react";
 <Route
   path="/settings"
   element={<Settings />}
@@ -24,6 +26,19 @@ import History from "@/layout/History";
 
 // import PersonDetails from './routes/dashboard/personDetails'
 function App() {
+  const [isStarting, setIsStarting] = useState(true);
+
+  useEffect(() => {
+    const splashTimer = window.setTimeout(() => {
+      setIsStarting(false);
+    }, 1200);
+
+    return () => window.clearTimeout(splashTimer);
+  }, []);
+
+  if (isStarting) {
+    return <LoadingScreen label="Preparing your cinema" />;
+  }
 
   return (
     <BrowserRouter>

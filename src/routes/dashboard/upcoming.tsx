@@ -27,15 +27,15 @@ const UpcomingPage = () => {
   }, []);
 
   if (isLoading) {
-    return <p>Loading movies...</p>;
+    return <main className="upcoming-status">Loading movies...</main>;
   }
 
   if (errorMessage) {
-    return <p>{errorMessage}</p>;
+    return <main className="upcoming-status">{errorMessage}</main>;
   }
 
   if (!movies.length) {
-    return <p>No upcoming movies found.</p>;
+    return <main className="upcoming-status">No upcoming movies found.</main>;
   }
 
   const heroMovie = movies[0];

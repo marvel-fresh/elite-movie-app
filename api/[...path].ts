@@ -48,7 +48,9 @@ export default async function handler(
     });
 
     upstreamResponse.headers.forEach((value, name) => {
-      response.setHeader(name, value);
+      if (!['content-encoding', 'content-length', 'transfer-encoding'].includes(name)) {
+        response.setHeader(name, value);
+      }
     });
     response.status(upstreamResponse.status);
     response.send(Buffer.from(await upstreamResponse.arrayBuffer()));

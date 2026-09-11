@@ -1,10 +1,21 @@
-const API_URL = import.meta.env.API_BASE_URL as string;
-const API_KEY = import.meta.env.API_KEY as string;
+const configuredApiUrl = import.meta.env.VITE_API_BASE_URL as string;
+const API_KEY = import.meta.env.VITE_API_KEY as string;
+
+if (!configuredApiUrl || !API_KEY) {
+  throw new Error(
+    "Missing VITE_API_BASE_URL or VITE_API_KEY. Configure them in the deployment environment."
+  );
+}
+
+const API_URL = configuredApiUrl.replace(/\/+$/, "");
+const getApiUrl = (endpoint: string) =>
+  `${API_URL}/${endpoint.replace(/^\/+/, "")}`;
 
 export const getReq = async <T>(
   endpoint: string
 ): Promise<T> => {
-  const data = await fetch(`${API_URL}${endpoint}`, {
+  const url = getApiUrl(endpoint);
+  const data = await fetch(url, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -13,7 +24,7 @@ export const getReq = async <T>(
   });
 
   if (!data.ok) {
-    throw new Error("Failed to get request");
+    throw new Error(`GET ${url} failed with status ${data.status}`);
   }
 
   const response = await data.json();
@@ -25,7 +36,8 @@ export const postReq = async <T>(
   endpoint: string,
   payload: unknown
 ): Promise<T> => {
-  const data = await fetch(`${API_URL}${endpoint}`, {
+  const url = getApiUrl(endpoint);
+  const data = await fetch(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -35,7 +47,7 @@ export const postReq = async <T>(
   });
 
   if (!data.ok) {
-    throw new Error("Failed to post request");
+    throw new Error(`POST ${url} failed with status ${data.status}`);
   }
 
   const response = await data.json();
@@ -47,7 +59,8 @@ export const updateReq = async <T>(
   endpoint: string,
   payload: unknown
 ): Promise<T> => {
-  const data = await fetch(`${API_URL}${endpoint}`, {
+  const url = getApiUrl(endpoint);
+  const data = await fetch(url, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -57,7 +70,7 @@ export const updateReq = async <T>(
   });
 
   if (!data.ok) {
-    throw new Error("Failed to update request");
+    throw new Error(`PUT ${url} failed with status ${data.status}`);
   }
 
   const response = await data.json();
@@ -68,7 +81,8 @@ export const updateReq = async <T>(
 export const deleteReq = async <T>(
   endpoint: string
 ): Promise<T> => {
-  const data = await fetch(`${API_URL}${endpoint}`, {
+  const url = getApiUrl(endpoint);
+  const data = await fetch(url, {
     method: "DELETE",
     headers: {
       "Authorization": `Bearer ${API_KEY}`,
@@ -76,7 +90,7 @@ export const deleteReq = async <T>(
   });
 
   if (!data.ok) {
-    throw new Error("Failed to delete request");
+    throw new Error(`DELETE ${url} failed with status ${data.status}`);
   }
 
   const response = await data.json();

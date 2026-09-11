@@ -4,7 +4,8 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   resolve:{
-    "tsconfigPaths":true
+    "tsconfigPaths":true,
+    
   },
   plugins: [react()],
 })

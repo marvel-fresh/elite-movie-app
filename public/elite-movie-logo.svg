@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 220" role="img" aria-labelledby="title desc">
+  <title id="title">Elite Movie</title>
+  <desc id="desc">Elite Movie cinema logo with a red play button and film strip</desc>
+  <defs>
+    <linearGradient id="red" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ff4052"/>
+      <stop offset="1" stop-color="#b90016"/>
+    </linearGradient>
+  </defs>
+  <g transform="translate(18 18)">
+    <rect x="0" y="0" width="184" height="184" rx="42" fill="#15171b" stroke="#30343c" stroke-width="4"/>
+    <path d="M70 48 143 92 70 136Z" fill="url(#red)"/>
+    <path d="M32 57h34M32 82h26M32 107h26M32 132h34" stroke="#f2f2f2" stroke-width="8" stroke-linecap="round"/>
+    <path d="M42 48v88" stroke="#f2f2f2" stroke-width="5" stroke-linecap="round"/>
+  </g>
+  <text x="232" y="113" fill="#f5f5f5" font-family="Georgia, serif" font-size="78" font-weight="700" letter-spacing="1">Elite</text>
+  <text x="478" y="113" fill="#ed1b2f" font-family="Arial, sans-serif" font-size="70" font-weight="800" letter-spacing="-2">Movie</text>
+  <path d="M235 145h450" stroke="#ed1b2f" stroke-width="4"/>
+  <text x="238" y="177" fill="#a5a8ae" font-family="Arial, sans-serif" font-size="18" font-weight="700" letter-spacing="6">MOVIES  /  TV  /  MORE</text>
+</svg>

@@ -70,7 +70,8 @@ function DashboardHeader({
         <Menu size={28} />
       </button>
 
-    
+      {isDetailPage && <BackButton />}
+
       <div className="app-name">
         <span className="elite">
            ELITE
@@ -79,8 +80,6 @@ function DashboardHeader({
           MOVIE
         </span>
       </div>
-
-      {isDetailPage && <BackButton />}
 
     
       <div className="header-search">

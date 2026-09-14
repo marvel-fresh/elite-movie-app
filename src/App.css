@@ -30,6 +30,22 @@
   margin-Bottom: 12px;
 }
 
+.auth-error {
+  margin: 0 0 16px;
+  padding: 10px 12px;
+  border: 1px solid rgb(239 68 68 / 45%);
+  border-radius: 8px;
+  background: rgb(127 29 29 / 25%);
+  color: #fca5a5;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.btn:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
 
 .dashboard-header {
   background: black;
@@ -4396,4 +4412,21 @@ color: #aaa;
   .history-page {
     padding-top: 88px;
   }
+}
+
+.flex-wrap{
+  flex-wrap: wrap;
+}
+
+.gap-1{
+  gap: 4px;
+}
+.gap-2{
+  gap: 8px;
+}
+.gap-3{
+  gap: 12px;
+}
+.gap-4{
+  gap: 16px;
 }

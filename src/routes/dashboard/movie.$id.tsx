@@ -332,15 +332,12 @@ const [isTrailerOpen, setIsTrailerOpen] = useState(false);
                   </div>
                   <div className="detail-row">
                     <div>Production Companies</div>
-                    <div className="flex">{
+                    <div className="flex flex-wrap gap-1">{
                       movie.production_companies.map((comp, i) => {
                         return (
-
                           <span>{comp.name}
                             {i < movie.production_companies.length - 1 ? ", " : " "}
                           </span>
-
-
                         )
                       })
                     }</div>

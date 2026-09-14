@@ -8,6 +8,8 @@ const LoginForm = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const login = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -18,9 +20,11 @@ const LoginForm = () => {
     }
 
     try {
+      setIsSubmitting(true);
+      setErrorMessage("");
       const response = await loginUser(email, password);
       if (!response || !response.success) {
-        alert(response?.message || "Login failed");
+        setErrorMessage(response?.message || "Login failed");
         return;
       }
 
@@ -32,15 +36,21 @@ const LoginForm = () => {
       startSession(sessionPayload)
       navigate("/dashboard");
     }
-    catch(e){
-        console.log(e)
-    } 
+    catch (error) {
+      console.error("Login request failed:", error);
+      setErrorMessage(
+        "Login service is temporarily unavailable. Please try again later."
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
   
   return (
      <div className="registration-page">
     <div className="form-data">
       <h2>Login</h2>
+      {errorMessage ? <p className="auth-error" role="alert">{errorMessage}</p> : null}
       <form onSubmit={login}>
         <div className="form-group">
           <label>Email</label>
@@ -62,7 +72,9 @@ const LoginForm = () => {
         </div>
         
         <div>
-          <button type="submit" className="btn">Login</button>
+          <button type="submit" className="btn" disabled={isSubmitting}>
+            {isSubmitting ? "Signing in..." : "Login"}
+          </button>
         </div>
         
       </form>

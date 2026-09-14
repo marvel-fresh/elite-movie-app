@@ -2058,6 +2058,8 @@ div.movie-tabs-title {
   }
 
   .person-meta {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
     justify-content: center;
 
     gap: 12px 20px;
@@ -2066,7 +2068,23 @@ div.movie-tabs-title {
   }
 
   .person-meta>div {
+    justify-content: center;
+    min-width: 0;
     font-size: 13px;
+  }
+
+  .person-meta>div span {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .person-stats {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .person-stat strong {
+    padding-top: 0;
   }
 
   .person-rating {
@@ -3638,6 +3656,57 @@ div.movie-tabs-title {
   font-size: 12px;
 
   text-align: center;
+}
+
+.settings-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1100;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgb(0 0 0 / 72%);
+}
+
+.settings-modal {
+  position: relative;
+  width: min(100%, 520px);
+  padding: 32px;
+  border: 1px solid #333;
+  border-radius: 12px;
+  background: #151515;
+  box-shadow: 0 20px 70px rgb(0 0 0 / 55%);
+}
+
+.settings-modal h2 {
+  margin: 0 0 12px;
+  font-size: 22px;
+}
+
+.settings-modal p {
+  margin: 0;
+  color: #bdbdbd;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.settings-modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: #ddd;
+  cursor: pointer;
+}
+
+.settings-modal-close:hover {
+  background: #252525;
 }
 
 

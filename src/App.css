@@ -4668,7 +4668,20 @@ color: #aaa;
   gap: 16px;
 }
 
+.person-overview-social {
+  width: 100%;
+  max-width: 1200px;
+  margin: 20px auto 0;
+  box-sizing: border-box;
+}
+
 @media (max-width: 650px) {
+  .person-page > .detail-back-btn {
+    position: static;
+    display: inline-flex;
+    margin: 0 auto 24px;
+  }
+
   .person-page {
     width: 100%;
     max-width: 100%;
@@ -4689,6 +4702,30 @@ color: #aaa;
 
   .person-filmography-preview {
     display: block;
+  }
+
+  .person-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .person-sidebar {
+    order: 0;
+  }
+
+  .person-overview-social {
+    margin-top: 20px;
+  }
+
+  .person-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .person-content .person-sidebar {
+    order: 0;
   }
 
   .filmography-preview-grid,

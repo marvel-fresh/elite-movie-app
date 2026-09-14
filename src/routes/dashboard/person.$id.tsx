@@ -9,6 +9,36 @@ import BackButton from "@/components/BackButton";
 type Tabs = "overview" | "filmography" | "gallery";
 type FilmographyTab = "movies" | "tv";
 
+function SocialMedia({ socials }: { socials: PersonSocails | null }) {
+    if (!socials) return null;
+
+    const links = [
+        [socials.instagram_id, "Instagram", `https://instagram.com/${socials.instagram_id}`],
+        [socials.facebook_id, "Facebook", `https://facebook.com/${socials.facebook_id}`],
+        [socials.twitter_id, "Twitter", `https://twitter.com/${socials.twitter_id}`],
+        [socials.tiktok_id, "TikTok", `https://tiktok.com/@${socials.tiktok_id}`],
+        [socials.youtube_id, "YouTube", `https://youtube.com/${socials.youtube_id}`],
+    ] as const;
+
+    return (
+        <div className="person-social-card person-overview-social">
+            <div className="social-card-header">
+                <h3>Social Media</h3>
+                <Globe size={18} />
+            </div>
+            <div className="social-links">
+                {links.map(([id, label, href]) => id && (
+                    <a href={href} target="_blank" rel="noopener noreferrer" className="social-link" key={label}>
+                        <LinkIcon size={17} />
+                        <span>{label}</span>
+                        <ExternalLink size={14} />
+                    </a>
+                ))}
+            </div>
+        </div>
+    );
+}
+
 function PersonDetails() {
     const { id } = useParams();
     const navigate = useNavigate();
@@ -292,6 +322,8 @@ function PersonDetails() {
                         </aside>
                     </section>
 
+                    <SocialMedia socials={socials} />
+
                     <section className="person-filmography-preview">
                         <div className="section-header">
                             <div className="filmography-title">
@@ -446,97 +478,6 @@ function PersonDetails() {
                             </div>
 
                         )}
-                        <div className="filmography-social-layout">
-                            {socials && (
-                                <div className="person-social-card">
-                                    <div className="social-card-header">
-                                        <h3>Social Media</h3>
-                                        <Globe size={18} />
-                                    </div>
-
-                                    <div className="social-links">
-
-                                        {socials.instagram_id && (
-                                            <a
-                                                href={`https://instagram.com/${socials.instagram_id}`}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="social-link"
-                                            >
-                                                <LinkIcon size={17} />
-
-                                                <span>Instagram</span>
-
-                                                <ExternalLink size={14} />
-                                            </a>
-                                        )}
-
-                                        {socials.facebook_id && (
-                                            <a
-                                                href={`https://facebook.com/${socials.facebook_id}`}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="social-link"
-                                            >
-                                                <LinkIcon size={17} />
-
-                                                <span>Facebook</span>
-
-                                                <ExternalLink size={14} />
-                                            </a>
-                                        )}
-
-                                        {socials.twitter_id && (
-                                            <a
-                                                href={`https://twitter.com/${socials.twitter_id}`}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="social-link"
-                                            >
-                                                <LinkIcon size={17} />
-
-                                                <span>Twitter</span>
-
-                                                <ExternalLink size={14} />
-                                            </a>
-                                        )}
-
-                                        {socials.tiktok_id && (
-                                            <a
-                                                href={`https://tiktok.com/@${socials.tiktok_id}`}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="social-link"
-                                            >
-                                                <LinkIcon size={17} />
-
-                                                <span>TikTok</span>
-
-                                                <ExternalLink size={14} />
-                                            </a>
-                                        )}
-
-                                        {socials.youtube_id && (
-                                            <a
-                                                href={`https://youtube.com/${socials.youtube_id}`}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="social-link"
-                                            >
-                                                <LinkIcon size={17} />
-
-                                                <span>YouTube</span>
-
-                                                <ExternalLink size={14} />
-                                            </a>
-
-                                        )}
-
-                                    </div>
-                                </div>
-
-                            )}
-                        </div>
                     </section>
 
 

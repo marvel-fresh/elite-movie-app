@@ -31,7 +31,6 @@ import type {
 
 import Credit from "@/components/credit";
 import Recommendations from "@/components/recommendations";
-import BackButton from "@/components/BackButton";
 
 import {
   addToWatchlist,
@@ -190,7 +189,6 @@ useEffect(() => {
         <div className="backdrop" />
 
         <div className="hero-content">
-          <BackButton />
 
           <div className="top-rated">
             <Star size={14} />

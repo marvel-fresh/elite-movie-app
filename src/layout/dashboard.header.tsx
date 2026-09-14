@@ -1,6 +1,7 @@
 import { Bell, Menu, Search } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
+import BackButton from "../components/BackButton";
 import "../global.css";
 
 interface HeaderProps {
@@ -17,6 +18,8 @@ function DashboardHeader({
   const [searchQuery, setSearchQuery] = useState("");
 
   const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const isDetailPage = /^\/(movie|tv|person)\/[^/]+$/.test(pathname);
 
   const handleSearch = () => {
     if (!searchQuery.trim()) return;
@@ -76,6 +79,8 @@ function DashboardHeader({
           MOVIE
         </span>
       </div>
+
+      {isDetailPage && <BackButton />}
 
     
       <div className="header-search">

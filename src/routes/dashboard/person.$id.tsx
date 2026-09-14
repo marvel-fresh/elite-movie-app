@@ -5,7 +5,6 @@ import { getImageURL } from "@/lib/functions";
 import { getActorSocial, getPersonById, getPersonGallery, getPersonMovieCredits, getPersonTvCredits, } from "@/data/movies";
 import type { PersonDetailsProps } from "@/types/movies.type";
 import type { ActorsCredits, PersonGallery, PersonSocails, } from "@/types/cast.type";
-import BackButton from "@/components/BackButton";
 type Tabs = "overview" | "filmography" | "gallery";
 type FilmographyTab = "movies" | "tv";
 
@@ -153,7 +152,6 @@ function PersonDetails() {
         
         <main className="person-page">
 
-   <BackButton/>
             <section className="person-hero">
                 
                 <div className="person-profile">

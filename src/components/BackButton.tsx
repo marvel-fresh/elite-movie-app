@@ -6,7 +6,7 @@ const BackButton = () => {
   return (
     <button
       type="button"
-      className="back-btn detail-back-btn"
+      className="back-btn header-back-btn"
       onClick={() => navigate(-1)}
       aria-label="Go back"
     >

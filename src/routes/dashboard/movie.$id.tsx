@@ -9,7 +9,6 @@ import Credit from "@/components/credit";
 import Recommendations from "@/components/recommendations";
 import { Bookmark, BookmarkCheck, } from "lucide-react";
 import { addToWatchlist, removeFromWatchlist, isInWatchlist, } from "@/lib/watchlist";
-import BackButton from "@/components/BackButton";
 import TrailerModal from "@/components/TrailerModal";
 import { addToWatchHistory } from "@/lib/History";
 type Tabs = 'overview' | 'details' | 'credit' | 'reviews' | 'recommendation' | '';
@@ -131,7 +130,6 @@ const [isTrailerOpen, setIsTrailerOpen] = useState(false);
 
         <div className="hero-content">
 
-          <BackButton />
 
           <div className="top-rated">
             <Star size={14} />

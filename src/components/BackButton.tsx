@@ -1,3 +1,4 @@
+import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router";
 
 const BackButton = () => {
@@ -10,7 +11,8 @@ const BackButton = () => {
       onClick={() => navigate(-1)}
       aria-label="Go back"
     >
-      ← Back
+      <ArrowLeft size={16} strokeWidth={2.5} aria-hidden="true" />
+      <span>Back</span>
     </button>
   );
 };

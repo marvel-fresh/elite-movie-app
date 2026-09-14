@@ -2016,7 +2016,6 @@ div.movie-tabs-title {
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
-    overflow-x: hidden;
     padding: 22px 18px 50px;
   }
 
@@ -2195,6 +2194,105 @@ div.movie-tabs-title {
     aspect-ratio: 1 / 1;
   }
 
+}
+
+/* Person details must reflow after the desktop grid declarations above. */
+@media (max-width: 650px) {
+  .person-page {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .person-page > *,
+  .person-content,
+  .person-filmography,
+  .person-gallery,
+  .person-filmography-preview,
+  .gallery-preview {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  .person-filmography-preview {
+    display: block;
+  }
+
+  .filmography-preview-grid,
+  .filmography-grid,
+  .gallery-preview-grid,
+  .gallery-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    min-width: 0;
+  }
+
+  .filmography-card,
+  .gallery-item,
+  .gallery-preview-item {
+    min-width: 0;
+  }
+
+  .filmography-poster {
+    aspect-ratio: 2 / 3;
+  }
+
+  .filmography-details-btn {
+    opacity: 1;
+  }
+
+  .filmography-details-btn {
+    opacity: 1;
+  }
+
+  .filmography-poster img,
+  .gallery-item img,
+  .gallery-preview-item img {
+    max-width: 100%;
+  }
+
+  .person-filmography-preview > .filmography-social-layout {
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  .filmography-header,
+  .person-filmography-preview .section-header,
+  .gallery-header,
+  .gallery-preview-header {
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .filmography-title {
+    width: 100%;
+    min-width: 0;
+    padding: 18px 0;
+  }
+
+  .filmography-tabs {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  .filmography-info h3,
+  .filmography-role,
+  .person-side-item strong,
+  .social-link span,
+  .person-biography p,
+  .alias {
+    min-width: 0;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .gallery-preview-item {
+    height: auto;
+    aspect-ratio: 1 / 1;
+  }
 }
 
 
@@ -4568,4 +4666,91 @@ color: #aaa;
 }
 .gap-4{
   gap: 16px;
+}
+
+@media (max-width: 650px) {
+  .person-page {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .person-page > *,
+  .person-content,
+  .person-filmography,
+  .person-gallery,
+  .person-filmography-preview,
+  .gallery-preview {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  .person-filmography-preview {
+    display: block;
+  }
+
+  .filmography-preview-grid,
+  .filmography-grid,
+  .gallery-preview-grid,
+  .gallery-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    min-width: 0;
+  }
+
+  .filmography-card,
+  .gallery-item,
+  .gallery-preview-item {
+    min-width: 0;
+  }
+
+  .filmography-poster {
+    aspect-ratio: 2 / 3;
+  }
+
+  .filmography-details-btn {
+    opacity: 1;
+  }
+
+  .filmography-header,
+  .person-filmography-preview .section-header,
+  .gallery-header,
+  .gallery-preview-header {
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .filmography-title {
+    width: 100%;
+    min-width: 0;
+    padding: 18px 0;
+  }
+
+  .filmography-tabs {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  .filmography-info h3,
+  .filmography-role,
+  .person-side-item strong,
+  .social-link span,
+  .person-biography p,
+  .alias {
+    min-width: 0;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .gallery-preview {
+    width: 100%;
+  }
+
+  .gallery-preview-item {
+    height: auto;
+    aspect-ratio: 1 / 1;
+  }
 }

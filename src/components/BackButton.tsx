@@ -12,7 +12,6 @@ const BackButton = () => {
       aria-label="Go back"
     >
       <ArrowLeft size={16} strokeWidth={2.5} aria-hidden="true" />
-      <span></span>
     </button>
   );
 };

@@ -310,17 +310,14 @@
 }
 
 .header-back-btn {
-  flex: 0 0 auto;
-  align-items: center;
-  margin: 0 0 0 4px;
-  padding: 8px 12px;
-  border: 1px solid #3a3d45;
-  border-radius: 7px;
-  box-shadow: 0 2px 8px rgb(0 0 0 / 22%);
-  font-size: 13px;
-  font-weight: 700;
-  white-space: nowrap;
-  border-radius: 50%;
+    border: 1px solid #3a3d45;
+    border-radius: 50%;
+    height: 32px;
+    width: 32px;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .header-back-btn:hover {
